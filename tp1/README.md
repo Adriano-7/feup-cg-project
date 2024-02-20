@@ -4,9 +4,15 @@
 
 ## TP 1 Notes
 
-(add your main observations/remarks about your experiments here, in a bulleted list, and remove this line. Some examples below)
+- Project at the beginning stage
 
-- In exercise 1 we observed X
-- In exercise 2 we had difficulties in Y
+![Screenshot 1](screenshots/cg-t06g06-tp1-n.png)
 
-![Screenshot 1](screenshots/cg-t0xgxx-tp1-n.png)
+- In Exercise 1, we developed new classes for simple images and implemented additional controllers to customize the interface according to user preferences
+
+![Screenshot 2](screenshots/cg-t06g06-tp1-1.png)
+
+- Exercise 2 presented a higher level of difficulty, where we created new images.
+
+![Screenshot 3](screenshots/cg-t06g06-tp1-2-fig5.png)
+![Screenshot 3](screenshots/cg-t06g06-tp1-2-fig6.png)
