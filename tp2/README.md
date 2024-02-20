@@ -1,1 +1,8 @@
-# [COPY FROM PREVIOUS TP AND ADJUST]
+# CG 2023/2024
+
+## Group T06G06
+
+## TP 2 Notes
+
+- In Exercise ...
+- In Exercise ..
