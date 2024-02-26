@@ -3,6 +3,3 @@
 ## Group T06G06
 
 ## TP 2 Notes
-
-- In Exercise ...
-- In Exercise ..
