@@ -19,9 +19,15 @@ export class MyTangram extends CGFobject {
         this.trianglesmall = new MyTriangleSmall(scene);
         this.trianglebig = new MyTriangleBig(scene);
 
+
     }
 
     display() {
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI / 2, 1, 0, 0);
+        this.scene.translate(2.7, -3.4, 0);
+
+
         //MyTriangle
         this.scene.pushMatrix();
         this.scene.translate(0, 2, 0);
@@ -30,7 +36,9 @@ export class MyTangram extends CGFobject {
         this.scene.popMatrix();
 
         //MyTriangleBig (1)
+        this.scene.pushMatrix();
         this.trianglebig.display();
+        this.scene.popMatrix();
 
         //MyTriangleBig (2)
         this.scene.pushMatrix();
@@ -66,5 +74,8 @@ export class MyTangram extends CGFobject {
         this.scene.rotate(Math.PI / 4, 0, 0, 1);
         this.diamond.display();
         this.scene.popMatrix();
+
+        this.scene.popMatrix();
+
     }
 }
