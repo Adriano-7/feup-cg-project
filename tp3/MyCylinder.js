@@ -46,8 +46,6 @@ export class MyCylinder extends CGFobject {
                 this.normals.push(cn, sn, 0);
                 
 
-                var base = 4*j + 4*i*this.slices
-
                 // create prism indices
                 var base = 2*i*this.slices
                 this.indices.push(base + x%(2*this.slices), base + (x+2)%(2*this.slices), base + (x+3)%(2*this.slices));
