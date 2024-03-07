@@ -5,6 +5,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MyTangram } from "./MyTangram.js";
 import { MyUnitCube } from "./MyUnitCube.js";
 import { MyPrism } from "./MyPrism.js";
+import { MyCylinder } from "./MyCylinder.js";
 
 /**
  * MyScene
@@ -35,15 +36,16 @@ export class MyScene extends CGFscene {
         this.pyramid = new MyPyramid(this, 3, 1);
         this.tangram = new MyTangram(this);
         this.unitcube = new MyUnitCube(this);
-        this.prism = new MyPrism(this, 8, 20);
+        this.prism = new MyPrism(this, 3, 20);
+        this.cylinder = new MyCylinder(this, 8 , 20);
 
-        this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.unitcube, this.prism];
+        this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.unitcube, this.prism, this.cylinder];
 
         // Labels and ID's for object selection on MyInterface
-        this.objectIDs = { 'Plane': 0, 'Pyramid': 1, 'Cone': 2, 'Tangram': 3, 'UnitCube': 4, 'Prism': 5};
+        this.objectIDs = { 'Plane': 0, 'Pyramid': 1, 'Cone': 2, 'Tangram': 3, 'UnitCube': 4, 'Prism': 5, 'Cylinder': 6};
 
         //Other variables connected to MyInterface
-        this.selectedObject = 0;        
+        this.selectedObject = 6;            // EDIT LATER 
         this.selectedMaterial = 0;
         this.displayAxis = true;
         this.displayNormals = false;
@@ -165,7 +167,6 @@ export class MyScene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-        this.setGlobalAmbientLight(this.globalAmbLight, this.globalAmbLight, this.globalAmbLight, 1.0);
         this.lights[0].update();
         this.lights[1].update();
 
@@ -176,6 +177,8 @@ export class MyScene extends CGFscene {
         // ---- BEGIN Primitive drawing section
 
         this.materials[this.selectedMaterial].apply();
+
+        this.setGlobalAmbientLight(this.globalAmbLight, this.globalAmbLight, this.globalAmbLight, 1.0);
 
         this.pushMatrix();
         this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
