@@ -32,6 +32,7 @@ export class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'displayQuad').name('Display Quad');
         this.gui.add(this.scene, 'displayQuadMaterial').name('Display QMaterial');
         this.gui.add(this.scene, 'displayTangram').name('Display Tangram');
+        this.gui.add(this.scene, 'displayUnitCube').name('Display UnitCube');
 
         //Groups for Texture coordinates per vertex (MyQuad)
         var f0 = this.gui.addFolder('Top Left Coords')
