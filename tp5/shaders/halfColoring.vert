@@ -17,7 +17,7 @@ varying vec4 coords;
 
 void main() {
     vec3 offset = vec3(0.0, 0.0, 0.0);
-    offset.x = sin(timeFactor) * normScale;
+    offset.x = 0.3*sin(timeFactor) * normScale;
 
     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+offset, 1.0);
 
