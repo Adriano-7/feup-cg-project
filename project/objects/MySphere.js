@@ -9,7 +9,7 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param inverted - Boolean to invert the sphere
  */
 export class MySphere extends CGFobject {
-    constructor(scene, slices, stacks, inverted) {
+    constructor(scene, slices, stacks, inverted = false) {
         super(scene);
         this.latitude = stacks * 2;
         this.longitude = slices;
@@ -32,39 +32,37 @@ export class MySphere extends CGFobject {
             for (let long = 0; long <= this.longitude; long++) {
                 const theta = long * deltaLong;
 
-                const x = Math.cos(theta) * Math.sin(phi);
+                const x = Math.sin(theta) * Math.sin(phi);
                 const y = Math.cos(phi);
-                const z = Math.sin(theta) * Math.sin(phi);
+                const z = Math.cos(theta) * Math.sin(phi);
 
-                const s = 1 - (long / this.longitude);
-                const t = 1 - (lat / this.latitude);
+                this.vertices.push(x, y, z);
 
                 if (this.inverted) {
-                    this.vertices.push(x, -y, z);
                     this.normals.push(-x, y, -z);
                 } else {
-                    this.vertices.push(x, y, z);
                     this.normals.push(x, y, z);
                 }
 
+                const s = long / this.longitude;
+                const t = lat / (this.latitude - 1);
                 this.texCoords.push(s, t);
 
                 if (lat < this.latitude && long < this.longitude) {
-                    const current = lat * (this.longitude + 1) + long;
-                    const next = current + this.longitude + 1;
+                    const curIdx = lat * (this.longitude + 1) + long;
+                    const nextLonIdx = (lat * (this.longitude + 1) + (long + 1) % (this.longitude + 1));
+                    const nextLatIdx = (lat + 1) * (this.longitude + 1) + long;
+                    const nextLatLonIdx = ((lat + 1) * (this.longitude + 1) + (long + 1) % (this.longitude + 1));
 
-                    if (this.inverted) {
-                        this.indices.push(current, current + 1, next);
-                        this.indices.push(next, current + 1, next + 1);
-                    } else {
-                        this.indices.push(current, next, current + 1);
-                        this.indices.push(next, next + 1, current + 1);
-                    }
+                    this.indices.push(curIdx, nextLatIdx, nextLonIdx);
+                    this.indices.push(nextLonIdx, nextLatIdx, nextLatLonIdx);
+                    this.indices.push(nextLonIdx, nextLatIdx, curIdx);
+                    this.indices.push(nextLatLonIdx, nextLatIdx, nextLonIdx);
                 }
             }
-        }
 
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
+            this.primitiveType = this.scene.gl.TRIANGLES;
+            this.initGLBuffers();
+        }
     }
 }
