@@ -11,11 +11,43 @@
 
 --- 
 
-### Practical work
+### Implemented Features
+[✓] Criação de esfera
+[ ] Adição de Panoramas
+[ ] Modelação de uma flor
+[ ] Parametrização da flor
+[ ] Aleatoriedade e diversidade na flor
+[ ] Pedras e penedos
+[ ] Modelação da abelha
+[ ] Animação da abelha
+[ ] Controlo da abelha
+[ ] Pólen e colmeia
+[ ] Modelação da relva
+[ ] Ondulação da relva
+	
+### Aditional Features
 
-- [tp1](tp1/README.md)
-- [tp2](tp2/README.md)
-- [tp3](tp3/README.md)
-- [tp4](tp4/README.md)
-- [tp5](tp5/README.md)
-- [Project](proj/README.md)
+[ ] ?
+
+### Screenshots
+
+#### Panorama Element
+![Panorama Image](/project/images/cg-t06g06-1.png)
+
+#### Flower Element
+![Flower Image](/project/images/cg-t06g06-2.png)
+
+#### Rock Element
+![Rock Image](/project/images/cg-t06g06-3.png)
+
+#### Bee Element
+![Bee Image](/project/images/cg-t06g06-4.png)
+
+#### Moving Bee Element
+![ Image](/project/images/cg-t06g06-5.png)
+
+#### Pollen and Hive Elements
+![ Image](/project/images/cg-t06g06-6.png)
+
+#### Grass Elements
+![Grass Image](/project/images/cg-t06g06-7.png)
