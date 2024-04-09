@@ -2,6 +2,7 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } fr
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./objects/MySphere.js";
 import { MyPanorama } from "./objects/MyPanorama.js";
+import { MyFlower } from './MyFlower.js';
 
 /**
  * MyScene
@@ -10,7 +11,6 @@ import { MyPanorama } from "./objects/MyPanorama.js";
 export class MyScene extends CGFscene {
     constructor() {
         super();
-        this.displayPanorama = false;
     }
 
     init(application) {
@@ -33,6 +33,13 @@ export class MyScene extends CGFscene {
         this.skySphere = new MySphere(this, 30, 30);
         this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
         this.panorama = new MyPanorama(this, this.panoramaTexture);
+        this.flower = new MyFlower(this);
+
+
+
+        this.objects = [this.panorama, this.flower];
+        // Labels and ID's for object selection on MyInterface
+        this.objectIDs = { 'Panorama': 0, 'Flower': 1};
 
 
         //Objects connected to MyInterface
@@ -50,6 +57,11 @@ export class MyScene extends CGFscene {
         this.earthAppearance = new CGFappearance(this);
         this.earthAppearance.setTexture(this.earthTexture);
         this.earthAppearance.setTextureWrap('REPEAT', 'REPEAT');
+
+
+        this.displayPanorama = false;
+        this.displayFlower = false;
+        // this.displayBee = false;
     }
     initLights() {
         this.lights[0].setPosition(15, 0, 5, 1);
@@ -73,6 +85,11 @@ export class MyScene extends CGFscene {
         this.setShininess(10.0);
     }
 
+    updateObjectComplexity() {
+        this.objects[this.selectedObject].updateBuffers(this.objectComplexity);
+    }
+
+
     display() {
         // Clear image and depth buffer every time we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -87,6 +104,8 @@ export class MyScene extends CGFscene {
 
         // Draw axis
         if (this.displayAxis) this.axis.display();
+
+
 
         if (this.displayPanorama) {
             this.panorama.display();
@@ -104,7 +123,21 @@ export class MyScene extends CGFscene {
             this.pushMatrix();
             this.earthAppearance.apply();
             this.skySphere.display();
+            this.objects[this.selectedObject].display();
+
             this.popMatrix();
         }
+
+
+        if(this.displayFlower) {
+            this.flower.display();
+        }
+        //if(this.displayFlower) {
+        //    this.flower.display();
+        //}
+
+
+        // ---- END Primitive drawing section
+
     }
 }
