@@ -18,13 +18,21 @@ export class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         //Checkbox element in GUI
-        this.gui.add(this.scene, 'displayAxis').name('Display Axis');
+        let displayMenu = this.gui.addFolder('Displays')
+        displayMenu.add(this.scene, 'displayAxis').name('Display Axis');
+        displayMenu.add(this.scene, 'displayNormals').name('Display Normals');
+
+        //Dropdown for elements
+        let objMenu = this.gui.addFolder('Visible Elements')
+        objMenu.add(this.scene, 'displayPanorama').name('Display Panorama');
+        objMenu.add(this.scene, 'displayFlower').name('Display Flower');
+        objMenu.add(this.scene, 'displayRock').name('Display Rock');
+        objMenu.add(this.scene, 'displayRockSet').name('Display Rock Set');
+        objMenu.add(this.scene, 'displayBee').name('Display Bee');
+        objMenu.add(this.scene, 'displayHive').name('Display Hive');
 
         //Slider element in GUI
         this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
-
-        //Checkbox element in GUI
-        this.gui.add(this.scene, 'displayPanorama').name('Display Panorama');
 
         return true;
     }

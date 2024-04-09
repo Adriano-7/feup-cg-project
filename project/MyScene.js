@@ -2,7 +2,13 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } fr
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./objects/MySphere.js";
 import { MyPanorama } from "./objects/MyPanorama.js";
-import { MyFlower } from './MyFlower.js';
+import { MyFlower } from './objects/MyFlower/MyFlower.js';
+import { MyRock } from './objects/MyRockSet/MyRock.js';
+import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
+import { MyBee } from './objects/MyBee.js';
+import { MyHive } from './objects/MyHive.js';
+
+
 
 /**
  * MyScene
@@ -33,17 +39,27 @@ export class MyScene extends CGFscene {
         this.skySphere = new MySphere(this, 30, 30);
         this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
         this.panorama = new MyPanorama(this, this.panoramaTexture);
-        this.flower = new MyFlower(this);
+        this.flower = new MyFlower(this, 10, 10);
+        this.rock = new MyRock(this, 10, 10);
+        this.rockset = new MyRockSet(this, 10, 10);
+        this.hive = new MyHive(this, 10, 10);
+        this.bee = new MyBee(this, 10, 10);
 
-
-
-        this.objects = [this.panorama, this.flower];
+        this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive];
         // Labels and ID's for object selection on MyInterface
-        this.objectIDs = { 'Panorama': 0, 'Flower': 1};
-
+        this.objectsIDs = { 
+            'Panorama': 0, 
+            'Bee': 1,
+            'Flower': 2,
+            'Rock' : 3,
+            'RockSet' : 4,
+            'Hive': 5        
+        };
+        this.selectedObject = 5;
 
         //Objects connected to MyInterface
         this.displayAxis = true;
+        this.displayNormals = false;
         this.scaleFactor = 1;
 
         this.enableTextures(true);
@@ -61,14 +77,19 @@ export class MyScene extends CGFscene {
 
         this.displayPanorama = false;
         this.displayFlower = false;
-        // this.displayBee = false;
+        this.displayRock = false;
+        this.displayRockSet = false;
+        this.displayHive = false;
+        this.displayBee = false;
     }
+
     initLights() {
         this.lights[0].setPosition(15, 0, 5, 1);
         this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
         this.lights[0].enable();
         this.lights[0].update();
     }
+
     initCameras() {
         this.camera = new CGFcamera(
             1.0,
@@ -78,6 +99,7 @@ export class MyScene extends CGFscene {
             vec3.fromValues(0, 0, 0)
         );
     }
+
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -85,10 +107,9 @@ export class MyScene extends CGFscene {
         this.setShininess(10.0);
     }
 
-    updateObjectComplexity() {
+    updateObjectTexture() {
         this.objects[this.selectedObject].updateBuffers(this.objectComplexity);
     }
-
 
     display() {
         // Clear image and depth buffer every time we update the scene
@@ -104,7 +125,10 @@ export class MyScene extends CGFscene {
 
         // Draw axis
         if (this.displayAxis) this.axis.display();
-
+        if (this.displayNormals)
+            this.objects[this.selectedObject].enableNormalViz();
+        else
+            this.objects[this.selectedObject].disableNormalViz();
 
 
         if (this.displayPanorama) {
@@ -128,14 +152,13 @@ export class MyScene extends CGFscene {
             this.popMatrix();
         }
 
+        // ---- BEGIN Primitive drawing section
 
-        if(this.displayFlower) {
-            this.flower.display();
-        }
-        //if(this.displayFlower) {
-        //    this.flower.display();
-        //}
-
+        if(this.displayFlower) this.flower.display();
+        if(this.displayRock) this.rock.display();
+        if(this.displayRockSet) this.rockset.display();
+        if(this.displayBee) this.bee.display();
+        if(this.displayHive) this.hive.display();
 
         // ---- END Primitive drawing section
 
