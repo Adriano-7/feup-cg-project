@@ -1,10 +1,10 @@
-import { CGFobject } from '../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 /**
- * MyHive
+ * MyBee
  * @constructor
  * @param scene - Reference to MyScene object
  */
-export class MyHive extends CGFobject {
+export class MyBee extends CGFobject {
     constructor(scene) {
         super(scene);
         this.initBuffers();
