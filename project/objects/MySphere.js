@@ -6,12 +6,14 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param scene - Reference to MyScene object
  * @param slices - Number of divisions around the Y-axis
  * @param stacks - Number of divisions along the Y-axis
+ * @param inverted - Boolean to invert the sphere
  */
 export class MySphere extends CGFobject {
-    constructor(scene, slices, stacks) {
+    constructor(scene, slices, stacks, inverted) {
         super(scene);
         this.latitude = stacks * 2;
         this.longitude = slices;
+        this.inverted = inverted;
         this.initBuffers();
     }
 
@@ -37,16 +39,27 @@ export class MySphere extends CGFobject {
                 const s = 1 - (long / this.longitude);
                 const t = 1 - (lat / this.latitude);
 
-                this.vertices.push(x, y, z);
-                this.normals.push(x, y, z);
+                if (this.inverted) {
+                    this.vertices.push(x, -y, z);
+                    this.normals.push(-x, y, -z);
+                } else {
+                    this.vertices.push(x, y, z);
+                    this.normals.push(x, y, z);
+                }
+
                 this.texCoords.push(s, t);
 
                 if (lat < this.latitude && long < this.longitude) {
                     const current = lat * (this.longitude + 1) + long;
                     const next = current + this.longitude + 1;
 
-                    this.indices.push(current, next, current + 1);
-                    this.indices.push(next, next + 1, current + 1);
+                    if (this.inverted) {
+                        this.indices.push(current, current + 1, next);
+                        this.indices.push(next, current + 1, next + 1);
+                    } else {
+                        this.indices.push(current, next, current + 1);
+                        this.indices.push(next, next + 1, current + 1);
+                    }
                 }
             }
         }
