@@ -9,8 +9,6 @@ import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
 import { MyGrass } from './objects/MyGrass/MyGrass.js';
 
-
-
 /**
  * MyScene
  * @constructor
@@ -40,12 +38,14 @@ export class MyScene extends CGFscene {
         this.skySphere = new MySphere(this, 30, 30);
         this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
         this.panorama = new MyPanorama(this, this.panoramaTexture);
-        this.flower = new MyFlower(this, 10, 10);
-        this.rock = new MyRock(this, 10, 10);
-        this.rockset = new MyRockSet(this, 10, 10);
-        this.hive = new MyHive(this, 10, 10);
-        this.bee = new MyBee(this, 10, 10);
-        this.grass = new MyGrass(this, 10, 10);
+
+
+        this.flower = new MyFlower(this);        
+        this.rock = new MyRock(this);
+        this.rockset = new MyRockSet(this);
+        this.hive = new MyHive(this);
+        this.bee = new MyBee(this);
+        this.grass = new MyGrass(this);
 
         this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.grass];
         // Labels and ID's for object selection on MyInterface
@@ -79,7 +79,7 @@ export class MyScene extends CGFscene {
 
 
         this.displayPanorama = false;
-        this.displayFlower = false;
+        this.displayFlower = true;
         this.displayRock = false;
         this.displayRockSet = false;
         this.displayHive = false;
@@ -89,8 +89,10 @@ export class MyScene extends CGFscene {
     }
 
     initLights() {
+        this.lights[0].setAmbient(0.8, 0.8, 0.6, 1.0);
         this.lights[0].setPosition(15, 0, 5, 1);
-        this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.lights[0].setDiffuse(1.5, 1.5, 1.5, 1.0);
+        this.lights[0].setSpecular(1.5, 1.5, 1.5, 1.0); 
         this.lights[0].enable();
         this.lights[0].update();
     }
@@ -98,9 +100,9 @@ export class MyScene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(
             1.0,
-            0.1,
+            0.5,
             1000,
-            vec3.fromValues(50, 10, 15),
+            vec3.fromValues(5, 15, 15),
             vec3.fromValues(0, 0, 0)
         );
     }

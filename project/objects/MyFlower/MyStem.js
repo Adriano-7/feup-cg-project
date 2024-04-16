@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 /**
  * MyStem
  * @constructor
@@ -6,6 +6,8 @@ import { CGFobject } from '../lib/CGF.js';
  * @param slices - number of divisions around the Y axis
  * @param stacks - number of divisions along the Y axis
  */
+
+// see on top
 export class MyStem extends CGFobject {
     constructor(scene, slices, stacks) {
         super(scene);
@@ -20,9 +22,10 @@ export class MyStem extends CGFobject {
         this.indices = [];
         this.normals = [];
     
-        var h = 1 / this.stacks;
+        var h = 0.5 / this.stacks; // Divide height equally for both cylinders
         var alphaAng = 2 * Math.PI / this.slices;
     
+        // Generate vertices, normals, and indices for the first cylinder
         for (var i = 0; i < this.stacks; i++) {
             var ang = 0;
             var hCurrent = i * h;
@@ -31,18 +34,17 @@ export class MyStem extends CGFobject {
             for (var j = 0; j <= this.slices; j++) {
                 var sa = Math.sin(ang);
                 var ca = Math.cos(ang);
-                var sn = Math.sin(ang + alphaAng);
-                var cn = Math.cos(ang + alphaAng);
-    
+                
+                // First cylinder
                 this.vertices.push(ca, sa, hCurrent);
                 this.vertices.push(ca, sa, hNext);
     
-                // 2 vertex
+                // Normals for the first cylinder
                 this.normals.push(ca, sa, 0);
                 this.normals.push(ca, sa, 0);
     
                 if (j < this.slices) {
-                    // create prism indices
+                    // create prism indices for the first cylinder
                     var base = 2 * (i * (this.slices + 1) + j);
                     this.indices.push(base, base + 2, base + 1); 
                     this.indices.push(base + 2, base + 3, base + 1); 
@@ -52,14 +54,44 @@ export class MyStem extends CGFobject {
             }
         }
     
-		//The defined indices (and corresponding vertices)
-		//will be read in groups of three to draw triangles
-        this.primitiveType = this.scene.gl.TRIANGLES;
-    
-        this.initGLBuffers();
-    }
+        // Generate vertices, normals, and indices for the second cylinder
+        for (var i = 0; i < this.stacks; i++) {
+            var ang = 0;
+            var hCurrent = i * h + 0.5; // Shift the second cylinder upwards
+            var hNext = (i + 1) * h + 0.5; // Shift the second cylinder upwards
+
+            for (var j = 0; j <= this.slices; j++) {
+                var sa = Math.sin(ang);
+                var ca = Math.cos(ang);
+
+                // Second cylinder
+                this.vertices.push(ca, sa, hCurrent);
+                this.vertices.push(ca, sa, hNext);
+
+                // Normals for the second cylinder
+                this.normals.push(ca, sa, 0);
+                this.normals.push(ca, sa, 0);
+
+                if (j < this.slices) {
+                    // create prism indices for the second cylinder
+                    var base = 2 * ((this.stacks + i) * (this.slices + 1) + j); // Shift indices to start after the first cylinder
+                    this.indices.push(base, base + 2, base + 1); 
+                    this.indices.push(base + 2, base + 3, base + 1); 
+                }
+
+                ang += alphaAng;
+            }
+        }
 
     
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
+    
+    getHeight() {
+        return this.stacks / (this.stacks + 1); // Assuming each stack has a height of 1 unit
+    }
+
 
     /**
      * Called when user interacts with GUI to change object's complexity.
