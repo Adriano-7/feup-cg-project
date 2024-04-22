@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFobject } from '../../lib/CGF.js';
 /**
  * MyCylinder
  * @constructor
@@ -59,8 +59,25 @@ export class MyCylinder extends CGFobject {
         this.initGLBuffers();
     }
 
+    setHeight(stacks) {
+        this.stacks = stacks;
+    }
     
+    getHeight() {
+        return this.stacks ; 
+    }
 
+
+    translate(x, y, z) {
+        for (let i = 0; i < this.vertices.length; i += 3) {
+            this.vertices[i] += x;
+            this.vertices[i + 1] += y;
+            this.vertices[i + 2] += z;
+        }
+        this.initGLBuffers();
+    }
+
+    
     /**
      * Called when user interacts with GUI to change object's complexity.
      * @param {integer} complexity - changes number of slices

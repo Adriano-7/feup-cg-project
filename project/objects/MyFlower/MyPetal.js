@@ -1,53 +1,39 @@
-import { CGFobject } from '../../../lib/CGF.js';
+import { CGFobject, CGFappearance } from '../../../lib/CGF.js'; // Ensure CGFappearance is imported
+import { MyTriangle } from '../../oldClasses/MyTriangle.js'
 
-/**
- * MyPetal
- * @constructor
- * @param scene - Reference to MyScene object
- */
 export class MyPetal extends CGFobject {
     constructor(scene) {
         super(scene);
-        this.initBuffers();
+        
+        // Define vertices for the two triangles
+        const vertices1 = [
+            0, 1, 0,
+            -1, -1, 0,
+            1, -1, 0
+        ];
+        const vertices2 = [
+            0, -3, 1,
+            1, -1, 0,   
+            -1, -1, 0
+        ];
+
+        // Create the triangles with the defined vertices
+        this.triangle1 = new MyTriangle(scene, vertices1); // First triangle
+        this.triangle2 = new MyTriangle(scene, vertices2); // Second triangle
+
+        // Pink Material
+        this.material = new CGFappearance(scene);
+        this.material.setAmbient(1, 0.608, 0.812, 1);
+        this.material.setDiffuse(1*0.4, 0.608*0.4, 0.812*0.4, 1);
+        this.material.setSpecular(1, 0.608, 0.812, 1);
+        this.material.setShininess(10.0);
     }
 
-    initBuffers() {
-        // Define vertices for the two triangles forming the petal
-        this.vertices = [
-            // Triangle 1
-            0, 1, 0,	//0
-			-1, -1, 0,	//1
-			1, -1, 0,	//2
-            
-            // Triangle 2
-            0, -3, 0,	//0
-			1, -1, 0,	//1
-			-1, -1, 0,	//2
-        ];
-
-        this.indices = [
-            // Triangle 1
-            0, 1, 2,
-
-            // Triangle 2
-            3, 4, 5
-        ];
-
-        // Normals 
-        this.normals = [
-            0, 0, 1,    // Normal for Triangle 1
-            0, 0, 1,    // Normal for Triangle 1
-            0, 0, 1,    // Normal for Triangle 1
-
-            0, 0, 1,    // Normal for Triangle 2
-            0, 0, 1,    // Normal for Triangle 2
-            0, 0, 1     // Normal for Triangle 2
-        ];
-
-        // Define the primitive type to be drawn
-        this.primitiveType = this.scene.gl.TRIANGLES;
-
-        // Initialize WebGL buffers
-        this.initGLBuffers();
+    display() {
+        this.material.apply(); // Apply the material properties
+        
+        // Display the triangles
+        this.triangle1.display();
+        this.triangle2.display();
     }
 }

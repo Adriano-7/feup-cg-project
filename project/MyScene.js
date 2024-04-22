@@ -39,8 +39,42 @@ export class MyScene extends CGFscene {
         this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
         this.panorama = new MyPanorama(this, this.panoramaTexture);
 
+        // cPetals Material
+        this.cPetals = new CGFappearance(this);
+        this.cPetals.setAmbient(1, 0.608, 0.812, 1);
+        this.cPetals.setDiffuse(1*0.4, 0.608*0.4, 0.812*0.4, 1);
+        this.cPetals.setSpecular(1, 0.608, 0.812, 1);
+        this.cPetals.setShininess(10.0);
 
-        this.flower = new MyFlower(this);        
+        // Yellow Material
+        this.cReceptable = new CGFappearance(this);
+        this.cReceptable.setAmbient(1*0.8, 1*0.8, 0, 1); // Full intensity yellow ambient light
+        this.cReceptable.setDiffuse(1, 1, 0, 1); // Intense yellow diffuse light
+        this.cReceptable.setSpecular(1, 1, 0, 1); // Yellow specular highlights
+        this.cReceptable.setShininess(10.0); // Adjust shininess as needed
+
+        //cReceptable Material
+        this.cStem = new CGFappearance(this);
+        this.cStem.setAmbient(0, 1*0.8, 0, 1);
+        this.cStem.setDiffuse(0*0.4, 1*0.4, 0*0.4, 1);
+        this.cStem.setSpecular(0, 1, 0, 1);
+        this.cStem.setShininess(10.0);
+
+
+        this.flower = new MyFlower(
+            this,
+            12, // rExt
+            8,  // nPetals
+            this.cPetals, // cPetals
+            4,   // rReceptable
+            this.cReceptable, // cReceptable
+            1,   // rStem
+            8,   // hStem
+            this.cStem, // cStem
+            this.cLeaf  // cLeaf
+        );
+        
+
         this.rock = new MyRock(this);
         this.rockset = new MyRockSet(this);
         this.hive = new MyHive(this);
@@ -78,6 +112,7 @@ export class MyScene extends CGFscene {
         this.earthAppearance.setTextureWrap('REPEAT', 'REPEAT');
 
 
+
         this.displayPanorama = false;
         this.displayFlower = true;
         this.displayRock = false;
@@ -89,30 +124,26 @@ export class MyScene extends CGFscene {
     }
 
     initLights() {
-        this.lights[0].setAmbient(0.8, 0.8, 0.6, 1.0);
-        this.lights[0].setPosition(15, 0, 5, 1);
-        this.lights[0].setDiffuse(1.5, 1.5, 1.5, 1.0);
-        this.lights[0].setSpecular(1.5, 1.5, 1.5, 1.0); 
+        this.setGlobalAmbientLight(1, 1, 1, 1.0);
+        this.lights[0].setPosition(0, 0, 100, 1);
+        this.lights[0].setDiffuse(1.0*0.8, 1.0*0.8, 1.0*0.8, 1.0);
+        this.lights[0].setSpecular(1.0, 1.0, 1.0, 1.0);
         this.lights[0].enable();
         this.lights[0].update();
     }
 
     initCameras() {
         this.camera = new CGFcamera(
-            1.0,
-            0.5,
+            1.5,
+            0.2,
             1000,
-            vec3.fromValues(5, 15, 15),
+            vec3.fromValues(6, 5, 12),
             vec3.fromValues(0, 0, 0)
         );
     }
 
-    setDefaultAppearance() {
-        this.setAmbient(0.2, 0.4, 0.8, 1.0);
-        this.setDiffuse(0.2, 0.4, 0.8, 1.0);
-        this.setSpecular(0.2, 0.4, 0.8, 1.0);
-        this.setShininess(10.0);
-    }
+
+    
 
     updateObjectTexture() {
         this.objects[this.selectedObject].updateBuffers(this.objectComplexity);
