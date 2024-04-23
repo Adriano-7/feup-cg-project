@@ -19,3 +19,5 @@ export class MyReceptable extends CGFobject {
         this.sphere.display();
     }
 }
+
+

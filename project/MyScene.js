@@ -7,7 +7,7 @@ import { MyRock } from './objects/MyRockSet/MyRock.js';
 import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
-import { MyGrass } from './objects/MyGrass/MyGrass.js';
+import { MyGarden } from './objects/MyGarden/MyGarden.js';
 
 /**
  * MyScene
@@ -46,14 +46,14 @@ export class MyScene extends CGFscene {
         this.cPetals.setSpecular(1, 0.608, 0.812, 1);
         this.cPetals.setShininess(10.0);
 
-        // Yellow Material
+        // cReceptable Material
         this.cReceptable = new CGFappearance(this);
         this.cReceptable.setAmbient(1*0.8, 1*0.8, 0, 1); // Full intensity yellow ambient light
         this.cReceptable.setDiffuse(1, 1, 0, 1); // Intense yellow diffuse light
         this.cReceptable.setSpecular(1, 1, 0, 1); // Yellow specular highlights
         this.cReceptable.setShininess(10.0); // Adjust shininess as needed
 
-        //cReceptable Material
+        // cStem Material
         this.cStem = new CGFappearance(this);
         this.cStem.setAmbient(0, 1*0.8, 0, 1);
         this.cStem.setDiffuse(0*0.4, 1*0.4, 0*0.4, 1);
@@ -64,7 +64,7 @@ export class MyScene extends CGFscene {
         this.flower = new MyFlower(
             this,
             12, // rExt
-            8,  // nPetals
+            20,  // nPetals
             this.cPetals, // cPetals
             4,   // rReceptable
             this.cReceptable, // cReceptable
@@ -75,13 +75,15 @@ export class MyScene extends CGFscene {
         );
         
 
+        const numRows = 5;
+        const numCols = 5;
+
         this.rock = new MyRock(this);
         this.rockset = new MyRockSet(this);
         this.hive = new MyHive(this);
         this.bee = new MyBee(this);
-        this.grass = new MyGrass(this);
-
-        this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.grass];
+        this.garden = new MyGarden(this);
+        this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.garden];
         // Labels and ID's for object selection on MyInterface
         this.objectsIDs = { 
             'Panorama': 0, 
@@ -90,7 +92,7 @@ export class MyScene extends CGFscene {
             'Rock' : 3,
             'RockSet' : 4,
             'Hive': 5,
-            'Grass': 6      
+            'Garden': 6      
         };
         this.selectedObject = 5;
 
@@ -114,12 +116,12 @@ export class MyScene extends CGFscene {
 
 
         this.displayPanorama = false;
-        this.displayFlower = true;
+        this.displayFlower = false;
         this.displayRock = false;
         this.displayRockSet = false;
         this.displayHive = false;
         this.displayBee = false;
-        this.displayGrass = false;
+        this.displayGarden = true;
 
     }
 
@@ -197,7 +199,7 @@ export class MyScene extends CGFscene {
         if(this.displayRockSet) this.rockset.display();
         if(this.displayBee) this.bee.display();
         if(this.displayHive) this.hive.display();
-        if(this.displayGrass) this.grass.display();
+        if(this.displayGarden) this.garden.display();
 
         // ---- END Primitive drawing section
 
