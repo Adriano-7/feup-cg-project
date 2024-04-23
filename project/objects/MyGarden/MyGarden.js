@@ -1,54 +1,58 @@
-import { CGFappearance, CGFobject } from '../../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 import { MyFlower } from '../MyFlower/MyFlower.js';
-import { MyFloor } from '../../oldClasses/MyFloor.js'; // Adjust the path as needed
 
 export class MyGarden extends CGFobject {
-    constructor(scene) {
+    constructor(scene, numRows, numCols) {
         super(scene);
-        this.flower = null; 
-        this.floor = null;
+        this.numRows = numRows;
+        this.numCols = numCols; 
+        this.flowers = []; // Use an array to store multiple flowers
+        this.rExt = 12;
+        this.rReceptable = 4;
+        this.rStem = 1;
+        this.margin = 30; // Adjust the margin value as needed
         this.hStem = 8; // Declare hStem as a property of the class
         this.createGarden();
     }
 
     createGarden() {
-        // Create the flower instance with desired parameters
-        this.flower = new MyFlower(
-            this.scene,
-            12, // rExt
-            20,  // nPetals
-            this.scene.cPetals, // cPetals
-            4,   // rReceptable
-            this.scene.cReceptable, // cReceptable
-            1,   // rStem
-            this.hStem,   // hStem - Access using this.hStem
-            this.scene.cStem, // cStem
-            this.scene.cLeaf,  // cLeaf
-        );
-
-        // Create the floor instance
-        this.floor = new MyFloor(this.scene);
-
-        // Define the floor material
-        this.cFloor = new CGFappearance(this.scene);
-        this.cFloor.setAmbient(0, 1, 0, 1);
-        this.cFloor.setDiffuse(0, 1, 0, 1);
-        this.cFloor.setSpecular(0, 1, 0, 1);
-        this.cFloor.setShininess(10.0);
+        // Create the flower instances with desired parameters
+        for (let i = 0; i < this.numRows; i++) {
+            for (let j = 0; j < this.numCols; j++) {
+                const randomRReceptable = 3 + Math.floor(Math.random() * 7); 
+                const randomRExt = 3*randomRReceptable + Math.floor(Math.random() * 12);
+                const randomNPetals = 5 + Math.floor(Math.random() * 21); 
+                const flower = new MyFlower(
+                    this.scene,
+                    randomRExt,
+                    randomNPetals,
+                    this.scene.cPetals,
+                    randomRReceptable,
+                    this.scene.cReceptable,
+                    this.rStem,
+                    this.hStem,
+                    this.scene.cStem,
+                    this.scene.cLeaf
+                );
+                this.flowers.push(flower); // Store the flower instance in the array
+            }
+        }
     }
 
     display() {
-        // Display the flower
-        this.scene.pushMatrix();
-        this.scene.translate(0, this.hStem, 0); // Translate upwards by hStem units
-        this.flower.display();
-        this.scene.popMatrix();
-
-        // Apply transformations and material to the floor
-        this.scene.pushMatrix();
-        this.scene.scale(5, 1, 5); // Scale the floor 5 times bigger
-        this.cFloor.apply(); // Apply the floor material
-        this.floor.display(); // Display the floor
-        this.scene.popMatrix();
+        // Display the flowers in a grid with adjusted spacing
+        for (let i = 0; i < this.numRows; i++) {
+            for (let j = 0; j < this.numCols; j++) {
+                const flowerIndex = i * this.numCols + j; // Calculate the index of the flower in the array
+                const flower = this.flowers[flowerIndex];
+                this.scene.pushMatrix();
+                const x = i * (2 * this.rExt + this.margin) - 2 * this.rExt;
+                const z = j * (2 * this.rExt + this.margin) - 2 * this.rExt;
+                this.scene.translate(x, 0, z); // Adjust position based on grid spacing
+                this.scene.translate(0, this.hStem, 0); // Translate upwards by hStem units
+                flower.display();
+                this.scene.popMatrix();
+            }
+        }
     }
 }

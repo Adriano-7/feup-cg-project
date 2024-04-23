@@ -75,14 +75,11 @@ export class MyScene extends CGFscene {
         );
         
 
-        const numRows = 5;
-        const numCols = 5;
-
         this.rock = new MyRock(this);
         this.rockset = new MyRockSet(this);
         this.hive = new MyHive(this);
         this.bee = new MyBee(this);
-        this.garden = new MyGarden(this);
+        this.garden = new MyGarden(this,4,4);
         this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.garden];
         // Labels and ID's for object selection on MyInterface
         this.objectsIDs = { 
@@ -177,7 +174,7 @@ export class MyScene extends CGFscene {
             // Draw sky-sphere
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, -100, 0);
+            this.translate(0, -10, 0);
             this.scale(400, 400, 400);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();

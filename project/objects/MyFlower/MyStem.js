@@ -2,30 +2,25 @@ import { CGFobject } from '../../../lib/CGF.js';
 import { MyCylinder } from '../../oldClasses/MyCylinder.js';
 
 export class MyStem extends CGFobject {
-    constructor(scene) {
+    constructor(scene, rStem, hStem) {
         super(scene);
-
+        this.rStem = rStem;
+        this.height = hStem;
         this.cylinder1 = new MyCylinder(scene, 100, 20);
         this.cylinder2 = new MyCylinder(scene, 100, 20);
     }
 
-    moveStem() {
-        // Obtendo a altura dos cilindros
-        let height = this.cylinder1.getHeight();
-
-        // Movendo o segundo cilindro para cima, de modo que seu topo coincida com a base do primeiro cilindro
-        this.cylinder2.setHeight(height);
-        this.cylinder2.translate(0, 0, height);
-    }
-
     display() {
-        // Exibindo os cilindros
-        this.cylinder1.display();
-        this.cylinder2.display();
-
-        // Realizando transformações adicionais no primeiro cilindro (caule)
         this.scene.pushMatrix();
-        this.scene.translate(0, 0, -1); // Ajuste a translação com base no tamanho da flor
+        this.scene.translate(0, 0, -this.height); // Adjust translation based on flower size
+        this.scene.scale(1, 1, this.height); // Use this.height to access the class property
+        this.cylinder2.display();
+        this.scene.popMatrix();
+
+        // Additional transformations on the first cylinder (stem)
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0, -2*this.height); // Adjust translation based on flower size
+        this.scene.scale(this.rStem, this.rStem, this.height); // Use this.height to access the class property
         this.cylinder1.display();
         this.scene.popMatrix();
     }
