@@ -44,21 +44,23 @@ export class MyScene extends CGFscene {
         this.rock = new MyRock(this, 10, 10);
         this.rockset = new MyRockSet(this, 10, 10);
         this.hive = new MyHive(this, 10, 10);
-        this.bee = new MyBee(this, 10, 10);
+
+        this.beeTexture = new CGFtexture(this, "images/bee.jpeg");
+        this.bee = new MyBee(this, this.beeTexture);
         this.grass = new MyGrass(this, 10, 10);
 
         this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.grass];
         // Labels and ID's for object selection on MyInterface
-        this.objectsIDs = { 
-            'Panorama': 0, 
+        this.objectsIDs = {
+            'Panorama': 0,
             'Bee': 1,
             'Flower': 2,
-            'Rock' : 3,
-            'RockSet' : 4,
+            'Rock': 3,
+            'RockSet': 4,
             'Hive': 5,
-            'Grass': 6      
+            'Grass': 6
         };
-        this.selectedObject = 5;
+        this.selectedObject = 1;
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -83,7 +85,7 @@ export class MyScene extends CGFscene {
         this.displayRock = false;
         this.displayRockSet = false;
         this.displayHive = false;
-        this.displayBee = false;
+        this.displayBee = true;
         this.displayGrass = false;
 
     }
@@ -138,6 +140,8 @@ export class MyScene extends CGFscene {
 
         if (this.displayPanorama) {
             this.panorama.display();
+        } else if (this.displayBee) {
+            this.bee.display();
         } else {
             // Draw sky-sphere
             this.pushMatrix();
@@ -148,7 +152,6 @@ export class MyScene extends CGFscene {
             this.plane.display();
             this.popMatrix();
 
-
             this.pushMatrix();
             this.earthAppearance.apply();
             this.skySphere.display();
@@ -157,14 +160,13 @@ export class MyScene extends CGFscene {
             this.popMatrix();
         }
 
-        // ---- BEGIN Primitive drawing section
 
-        if(this.displayFlower) this.flower.display();
-        if(this.displayRock) this.rock.display();
-        if(this.displayRockSet) this.rockset.display();
-        if(this.displayBee) this.bee.display();
-        if(this.displayHive) this.hive.display();
-        if(this.displayGrass) this.grass.display();
+        if (this.displayFlower) this.flower.display();
+        if (this.displayRock) this.rock.display();
+        if (this.displayRockSet) this.rockset.display();
+        if (this.displayBee) this.bee.display();
+        if (this.displayHive) this.hive.display();
+        if (this.displayGrass) this.grass.display();
 
         // ---- END Primitive drawing section
 

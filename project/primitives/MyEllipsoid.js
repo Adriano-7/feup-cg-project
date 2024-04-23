@@ -9,7 +9,7 @@ import { CGFobject } from '../../lib/CGF.js';
  * @param scale - Array with the scale factors for each axis
  */
 export class MyEllipsoid extends CGFobject {
-    constructor(scene, slices, stacks, scale = [1, 1, 1]) {
+    constructor(scene, slices, stacks, scale = [0.8, 1, 1]) {
         super(scene);
         this.latitude = stacks * 2;
         this.longitude = slices;
