@@ -7,7 +7,7 @@ export class MyStem extends CGFobject {
     constructor(scene, rStem, hStem) {
         super(scene);
         this.height = 20;
-        this.rStem = 2;
+        this.rStem = 1;
         this.margin = 0.1
         this.rotateValue = 25;
 
@@ -27,15 +27,16 @@ export class MyStem extends CGFobject {
 
         this.scene.pushMatrix();        
         this.scene.translate(this.rotateValue*this.height*this.margin*this.margin,0,this.height/2*this.margin - this.height);
-        this.scene.scale(this.rStem+(this.height*this.margin)*this.margin,this.rStem+this.margin,this.rStem+this.margin);
+        this.scene.scale(this.rStem+this.height*this.margin*this.margin+this.margin,this.rStem+this.margin,this.rStem+this.margin);
         this.elipsoid.display();
         this.scene.popMatrix();
-
+        //this.height/3-this.rStem*this.margin
         this.scene.pushMatrix();
-        this.scene.translate(3*this.rStem-3*this.margin, 0, -this.height+this.margin);
+        this.scene.translate(this.height/3-this.rStem*this.margin, 0, -this.height+ this.height*this.margin*this.rotateValue*this.margin*this.rStem*this.margin);
+
         this.scene.rotate(Math.PI / 180 * this.rotateValue,0,1,0);
-        this.scene.scale(this.rStem+this.margin,this.rStem+this.margin,this.rStem+this.margin);
-        //this.leaf.display();
+        this.scene.scale(this.height*this.rStem*this.margin,this.height*this.rStem*this.margin,this.height*this.rStem*this.margin);
+        this.leaf.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
@@ -46,3 +47,4 @@ export class MyStem extends CGFobject {
         this.scene.popMatrix();
     }
 }
+    
