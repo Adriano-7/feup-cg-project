@@ -113,12 +113,12 @@ export class MyScene extends CGFscene {
 
 
         this.displayPanorama = false;
-        this.displayFlower = false;
+        this.displayFlower = true;
         this.displayRock = false;
         this.displayRockSet = false;
         this.displayHive = false;
         this.displayBee = false;
-        this.displayGarden = true;
+        this.displayGarden = false;
 
     }
 
@@ -174,7 +174,7 @@ export class MyScene extends CGFscene {
             // Draw sky-sphere
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, -10, 0);
+            this.translate(0, -30, 0);
             this.scale(400, 400, 400);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();
