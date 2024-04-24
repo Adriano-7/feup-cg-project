@@ -6,7 +6,7 @@ import { MyLeaf } from '../MyFlower/MyLeaf.js';
 export class MyStem extends CGFobject {
     constructor(scene, rStem, hStem) {
         super(scene);
-        this.height = 20;
+        this.height = 10;
         this.rStem = 1;
         this.margin = 0.1
         this.rotateValue = 25;
@@ -18,6 +18,7 @@ export class MyStem extends CGFobject {
     }
 
     display() {
+        // ground cylinder 
         this.scene.pushMatrix();
         this.scene.translate(0, 0, -2 * this.height + this.height*this.margin); 
         this.scene.rotate(Math.PI / 180 * 15, 0, 1, 0); 
@@ -25,20 +26,23 @@ export class MyStem extends CGFobject {
         this.cylinder1.display();
         this.scene.popMatrix();
 
+        // gap between cilynders stuff
         this.scene.pushMatrix();        
         this.scene.translate(this.rotateValue*this.height*this.margin*this.margin,0,this.height/2*this.margin - this.height);
         this.scene.scale(this.rStem+this.height*this.margin*this.margin+this.margin,this.rStem+this.margin,this.rStem+this.margin);
         this.elipsoid.display();
         this.scene.popMatrix();
-        //this.height/3-this.rStem*this.margin
-        this.scene.pushMatrix();
-        this.scene.translate(this.height/3-this.rStem*this.margin, 0, -this.height+ this.height*this.margin*this.rotateValue*this.margin*this.rStem*this.margin);
 
+        // leaf stuff
+        this.scene.pushMatrix();
+        // this.height/3-
+        this.scene.translate(this.margin*this.rotateValue*this.margin*this.height-this.margin+0.8*this.rStem, 0, -this.height+(this.height-10)/10);
         this.scene.rotate(Math.PI / 180 * this.rotateValue,0,1,0);
         this.scene.scale(this.height*this.rStem*this.margin,this.height*this.rStem*this.margin,this.height*this.rStem*this.margin);
         this.leaf.display();
         this.scene.popMatrix();
 
+        // top cylinder
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI, 1, 0, 0); 
         this.scene.rotate(Math.PI / 180 * 15, 0, 1, 0); 
