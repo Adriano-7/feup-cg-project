@@ -6,12 +6,12 @@ export class MyGarden extends CGFobject {
         super(scene);
         this.numRows = numRows;
         this.numCols = numCols; 
-        this.flowers = []; // Use an array to store multiple flowers
+        this.flowers = [];
         this.rExt = 12;
         this.rReceptable = 4;
         this.rStem = 1;
-        this.margin = 30; // Adjust the margin value as needed
-        this.hStem = 8; // Declare hStem as a property of the class
+        this.margin = 30;
+        this.hStem = 8; 
         this.createGarden();
     }
 
@@ -21,7 +21,9 @@ export class MyGarden extends CGFobject {
             for (let j = 0; j < this.numCols; j++) {
                 const randomRReceptable = 3 + Math.floor(Math.random() * 7); 
                 const randomRExt = 3*randomRReceptable + Math.floor(Math.random() * 12);
-                const randomNPetals = 5 + Math.floor(Math.random() * 21); 
+                const randomRStem = 1 + Math.floor(Math.random() * 2); 
+                const randomNPetals = 8 + Math.floor(Math.random() * 19); 
+                const randomHSteam = 8 + Math.floor(Math.random()*11);
                 const flower = new MyFlower(
                     this.scene,
                     randomRExt,
@@ -34,7 +36,7 @@ export class MyGarden extends CGFobject {
                     this.scene.cStem,
                     this.scene.cLeaf
                 );
-                this.flowers.push(flower); // Store the flower instance in the array
+                this.flowers.push(flower); 
             }
         }
     }

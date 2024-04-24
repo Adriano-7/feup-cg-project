@@ -4,11 +4,12 @@ import { MyCylinder } from '../../oldClasses/MyCylinder.js';
 import { MyEllipsoid } from '../../oldClasses/MyEllipsoid.js';
 
 export class MyLeaf extends CGFobject {
-    constructor(scene) {
+    constructor(scene, lLeaf) {
         super(scene);
 
-        this.lLeaf = 6;
-        
+        this.lLeaf = lLeaf;
+        this.margin = 0.1;
+
         // Define vertices for the two triangles
         const vertices1 = [
             0.25, 0, 1,          // 1
@@ -39,26 +40,26 @@ export class MyLeaf extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.scale(0.2,0.6,this.lLeaf/2)
+        this.scene.scale(this.lLeaf/3*this.margin,this.lLeaf*this.margin,this.lLeaf/2)
         this.cylinder1.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(0,0,3);
+        this.scene.translate(0,0,this.lLeaf/2);
         this.scene.rotate(Math.PI / 180 * 25,0,1,0);
-        this.scene.scale(0.2,0.6,this.lLeaf/4);
+        this.scene.scale(this.lLeaf/3*this.margin,this.lLeaf*this.margin,this.lLeaf/4);
         this.cylinder2.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(0,0,3);
-        this.scene.scale(this.lLeaf/30, this.lLeaf/10, this.lLeaf/16);
+        this.scene.translate(0,0,this.lLeaf/2);
+        this.scene.scale(this.lLeaf/3*this.margin, this.lLeaf*this.margin, this.lLeaf/16);
         this.ellipsoid1.display();
         this.scene.popMatrix();
         
         this.scene.pushMatrix();
-        this.scene.translate(0.6,0,4.3);
-        this.scene.scale(this.lLeaf/30, this.lLeaf/10, this.lLeaf/16);
+        this.scene.translate(this.lLeaf*this.margin,0,2*this.lLeaf/3+3*this.margin);
+        this.scene.scale(this.lLeaf/3*this.margin, this.lLeaf*this.margin, this.lLeaf/16);
         this.ellipsoid1.display();
         this.scene.popMatrix();
 
