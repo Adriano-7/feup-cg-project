@@ -45,8 +45,10 @@ export class MyScene extends CGFscene {
         this.rockset = new MyRockSet(this, 10, 10);
         this.hive = new MyHive(this, 10, 10);
 
-        this.beeTexture = new CGFtexture(this, "images/bee.jpeg");
-        this.bee = new MyBee(this, this.beeTexture);
+        this.beeHeadTexture = new CGFtexture(this, "images/bee1.png");
+        this.beeBodyTexture = new CGFtexture(this, "images/bee3.png");
+        this.beeAbdomenTexture = new CGFtexture(this, "images/bee4.png");
+        this.bee = new MyBee(this, this.beeHeadTexture, this.beeBodyTexture, this.beeAbdomenTexture);
         this.grass = new MyGrass(this, 10, 10);
 
         this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.grass];
@@ -80,7 +82,7 @@ export class MyScene extends CGFscene {
         this.earthAppearance.setTextureWrap('REPEAT', 'REPEAT');
 
 
-        this.displayPanorama = false;
+        this.displayPanorama = true;
         this.displayFlower = false;
         this.displayRock = false;
         this.displayRockSet = false;
@@ -140,7 +142,8 @@ export class MyScene extends CGFscene {
 
         if (this.displayPanorama) {
             this.panorama.display();
-        } else if (this.displayBee) {
+        }
+        if (this.displayBee) {
             this.bee.display();
         } else {
             // Draw sky-sphere

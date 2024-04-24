@@ -9,23 +9,34 @@ import { MyCylinder } from "../../primitives/MyCylinder.js";
  * @param scene - Reference to MyScene object
  */
 export class MyBee extends CGFobject {
-    constructor(scene, texture) {
+    constructor(scene, textureHead, textureBody, textureAbdomen) {
         super(scene);
         this.head = new MySphere(scene, 16, 16);
         this.antenna = new MyCylinder(scene, 16, 16);
-        this.torax = new MyEllipsoid(scene, 16, 16, [1.4, 1.2, 1.3]);
-        this.abdomen = new MyEllipsoid(scene, 16, 16, [1.4, 1.2, 3.0]);
-        this.texture = texture;
+        this.leg = new MyCylinder(scene, 16, 16);
+        this.torax = new MyEllipsoid(scene, 16, 16, [1.3, 1.2, 1.7]);
+        this.abdomen = new MyEllipsoid(scene, 16, 16, [1.2, 1.2, 1.3]);
 
-        this.material = new CGFappearance(scene);
-        this.material.setEmission(1, 1, 1, 1);
-        this.material.setTexture(texture);
-        this.material.setTextureWrap('REPEAT', 'REPEAT');
+        this.headMaterial = new CGFappearance(scene);
+        this.headMaterial.setEmission(1, 1, 1, 1);
+        this.headMaterial.setTexture(textureHead);
+        this.headMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.bodyMaterial = new CGFappearance(scene);
+        this.bodyMaterial.setEmission(1, 1, 1, 1);
+        this.bodyMaterial.setTexture(textureBody);
+        this.bodyMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.abdomenMaterial = new CGFappearance(scene);
+        this.abdomenMaterial.setEmission(1, 1, 1, 1);
+        this.abdomenMaterial.setTexture(textureAbdomen);
+        this.abdomenMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
     }
 
     display() {
         this.scene.pushMatrix();
-        this.material.apply();
+        this.headMaterial.apply();
 
         //Display the head
         this.scene.pushMatrix();
@@ -33,7 +44,24 @@ export class MyBee extends CGFobject {
         this.head.display();
         this.scene.popMatrix();
 
-        // Display the left antenna
+        // Display the right leg
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI / 3, 1, 0, 0);
+        this.scene.translate(-0.5, -1.5, 0.5);
+        this.scene.scale(0.02, 0.02, 0.8);
+        this.leg.display();
+        this.scene.popMatrix();
+
+        // Display the abdomen
+        this.abdomenMaterial.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0, -0.6, 2.5);
+        this.abdomen.display();
+        this.scene.popMatrix();
+
+        this.bodyMaterial.apply();
+
+        // Display the right antenna
         this.scene.pushMatrix();
         this.scene.translate(-0.8, 0.8, -2.3);
         this.scene.rotate(Math.PI / 4, Math.PI / 4, 1, 0);
@@ -41,7 +69,7 @@ export class MyBee extends CGFobject {
         this.antenna.display();
         this.scene.popMatrix();
 
-        // Display the right antenna
+        // Display the left antenna
         this.scene.pushMatrix();
         this.scene.translate(0.8, 0.8, -2.3);
         this.scene.rotate(-Math.PI / 4, -Math.PI / 4, 1, 0);
@@ -51,17 +79,10 @@ export class MyBee extends CGFobject {
 
         // Display the torax
         this.scene.pushMatrix();
-        this.scene.translate(0, 0, 0.5);
-        this.torax.display();
-        this.scene.popMatrix();
-
-        // Display the abdomen
-        this.scene.pushMatrix();
         this.scene.translate(0, -0.3, 1.5);
         this.scene.rotate(Math.PI / 12, 1, 0, 0);
-        this.abdomen.display();
-        this.scene.popMatrix();
-
+        this.torax.display();
         this.scene.popMatrix();
     }
+
 }
