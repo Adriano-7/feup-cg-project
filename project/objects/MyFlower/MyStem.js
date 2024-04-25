@@ -6,8 +6,8 @@ import { MyLeaf } from '../MyFlower/MyLeaf.js';
 export class MyStem extends CGFobject {
     constructor(scene, rStem, hStem) {
         super(scene);
-        this.height = 10;
-        this.rStem = 1;
+        this.height = hStem;
+        this.rStem = rStem;
         this.margin = 0.1
         this.rotateValue = 25;
 
@@ -35,10 +35,9 @@ export class MyStem extends CGFobject {
 
         // leaf stuff
         this.scene.pushMatrix();
-        // this.height/3-
         this.scene.translate(this.margin*this.rotateValue*this.margin*this.height-this.margin+0.8*this.rStem, 0, -this.height+(this.height-10)/10);
         this.scene.rotate(Math.PI / 180 * this.rotateValue,0,1,0);
-        this.scene.scale(this.height*this.rStem*this.margin,this.height*this.rStem*this.margin,this.height*this.rStem*this.margin);
+        this.scene.scale(2*this.height*this.margin,2*this.height*this.margin,2*this.height*this.margin);
         this.leaf.display();
         this.scene.popMatrix();
 

@@ -34,7 +34,6 @@ export class MyFlower extends CGFobject {
     display() {
         this.scene.pushMatrix();
         this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-        this.scene.translate(2.7, -3.4, 0);
 
         // Display petals
         this.scene.pushMatrix();
@@ -53,8 +52,6 @@ export class MyFlower extends CGFobject {
         this.cStem.apply();
         this.stem.display();
         this.scene.popMatrix();
-
-
 
         this.scene.popMatrix();
     }
