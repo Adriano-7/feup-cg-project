@@ -9,56 +9,104 @@ export class MyGarden extends CGFobject {
         this.flowers = [];
         this.margin = 40;
         this.radius = 0;
+        this.smallMargin = 0.2;
 
         // Pink
-        this.c1 = new CGFappearance(this.scene);
-        this.c1.setAmbient(1, 0.608, 0.812, 1);
-        this.c1.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
-        this.c1.setSpecular(1, 0.608, 0.812, 1);
-        this.c1.setShininess(10.0);
+        this.c10 = new CGFappearance(this.scene);
+        this.c10.setAmbient(1, 0.608, 0.812, 1);
+        this.c10.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
+        this.c10.setSpecular(1, 0.608, 0.812, 1);
+        this.c10.setShininess(10.0);
+
+        this.c11 = new CGFappearance(this.scene);
+        this.c11.setAmbient(1, 0.608-this.smallMargin, 0.812, 1);
+        this.c11.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
+        this.c11.setSpecular(1, 0.608, 0.812, 1);
+        this.c11.setShininess(10.0);
+
+        this.c12 = new CGFappearance(this.scene);
+        this.c12.setAmbient(1, 0.608+this.smallMargin, 0.812, 1);
+        this.c12.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
+        this.c12.setSpecular(1, 0.608, 0.812, 1);
+        this.c12.setShininess(10.0);
 
         // Yellow
-        this.c2 = new CGFappearance(this);
-        this.c2.setAmbient(1*0.8, 1*0.8, 0, 1); 
-        this.c2.setDiffuse(1, 1, 0, 1);
-        this.c2.setSpecular(1, 1, 0, 1); 
-        this.c2.setShininess(10.0); 
+        this.c20 = new CGFappearance(this.scene);
+        this.c20.setAmbient(0.8, 0.8, 0, 1); 
+        this.c20.setDiffuse(1, 1, 0, 1);
+        this.c20.setSpecular(1, 1, 0, 1); 
+        this.c20.setShininess(10.0); 
+        
+        this.c21 = new CGFappearance(this.scene);
+        this.c21.setAmbient(0.8, 0.8-this.smallMargin, 0, 1); 
+        this.c21.setDiffuse(1, 1, 0, 1);
+        this.c21.setSpecular(1, 1, 0, 1); 
+        this.c21.setShininess(10.0); 
+        
+        this.c22 = new CGFappearance(this.scene);
+        this.c22.setAmbient(0.8, 0.8+this.smallMargin, 0, 1); 
+        this.c22.setDiffuse(1, 1, 0, 1);
+        this.c22.setSpecular(1, 1, 0, 1); 
+        this.c22.setShininess(10.0); 
+
 
         // Green Material
-        this.c3 = new CGFappearance(this);
-        this.c3.setAmbient(0, 1*0.8, 0, 1);
-        this.c3.setDiffuse(0*0.4, 1*0.4, 0*0.4, 1);
-        this.c3.setSpecular(0, 1, 0, 1);
-        this.c3.setShininess(10.0);
+        this.c30 = new CGFappearance(this.scene);
+        this.c30.setAmbient(0, 0.8, 0, 1);
+        this.c30.setDiffuse(0, 0.4, 0.4, 1);
+        this.c30.setSpecular(0, 1, 0, 1);
+        this.c30.setShininess(10.0);
+
+        this.c31 = new CGFappearance(this.scene);
+        this.c31.setAmbient(0, 0.8-this.smallMargin, 0, 1);
+        this.c31.setDiffuse(0, 0.4, 0, 1);
+        this.c31.setSpecular(0, 1, 0, 1);
+        this.c31.setShininess(10.0);
+
+        this.c32 = new CGFappearance(this.scene);
+        this.c32.setAmbient(0, 0.8+this.smallMargin, 0, 1);
+        this.c32.setDiffuse(0, 0.4, 0, 1);
+        this.c32.setSpecular(0, 1, 0, 1);
+        this.c32.setShininess(10.0);
 
         this.createGarden();
     }
 
-    getRandomRStem() {
-        return 1 + Math.floor(Math.random() * 2);
-    }
-
     createGarden() {
         // Create the flower instances with desired parameters
+        const colorOptionsPetals = [this.c10, this.c11, this.c12];
+        const colorOptionsReceptable = [this.c20, this.c21, this.c22];
+        const colorOptionsStem = [this.c30, this.c31, this.c32];
+
+
         for (let i = 0; i < this.numRows; i++) {
             for (let j = 0; j < this.numCols; j++) {
-                const randomRStem = Math.floor(Math.random() * 2 + 1);
-                const randomHStem = randomRStem + Math.floor(Math.random()*25 + 4);
+                const randomRStem = Math.floor(Math.random() * 2 + 2);
+                const randomHStem = randomRStem + Math.floor(Math.random()*25 + 6);
                 const randomRReceptable = 2 * randomRStem + Math.floor(Math.random() * 7);
                 const randomRExt = 3 * randomRReceptable + Math.floor(Math.random() * 12);
                 const randomNPetals = Math.floor(Math.random() * 19 + 8);
-                console.log("randomRExt for flower at position (" + i + ", " + j + "): " + randomRExt);
+
+                const randomColorIndexPetals = Math.floor(Math.random() * colorOptionsPetals.length);
+                const randomColorPetals = colorOptionsPetals[randomColorIndexPetals];
+
+                const randomColorIndexReceptable = Math.floor(Math.random() * colorOptionsReceptable.length);
+                const randomColorReceptable = colorOptionsReceptable[randomColorIndexReceptable];
+
+                const randomColorIndexStem = Math.floor(Math.random() * colorOptionsStem.length);
+                const randomColorStem = colorOptionsStem[randomColorIndexStem];
+                
                 const flower = new MyFlower(
                     this.scene,
                     randomRExt,
                     randomNPetals,
-                    this.c1,
+                    randomColorPetals,
                     randomRReceptable,
-                    this.scene.cReceptable,
+                    randomColorReceptable,
                     randomRStem,
                     randomHStem,
-                    this.scene.cStem,
-                    this.scene.cLeaf
+                    randomColorStem,
+                    randomColorStem
                 );
                 flower.randomRExt = randomRExt;
                 flower.randomHStem = randomHStem;
