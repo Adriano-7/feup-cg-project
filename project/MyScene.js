@@ -75,7 +75,7 @@ export class MyScene extends CGFscene {
         );
         
 
-        this.rock = new MyRock(this);
+        this.rock = new MyRock(this, 5);
         this.rockset = new MyRockSet(this);
         this.hive = new MyHive(this);
         this.bee = new MyBee(this);
@@ -110,15 +110,13 @@ export class MyScene extends CGFscene {
         this.earthAppearance.setTexture(this.earthTexture);
         this.earthAppearance.setTextureWrap('REPEAT', 'REPEAT');
 
-
-
         this.displayPanorama = false;
         this.displayFlower = false;
-        this.displayRock = false;
+        this.displayRock = true;
         this.displayRockSet = false;
         this.displayHive = false;
         this.displayBee = false;
-        this.displayGarden = true;
+        this.displayGarden = false;
 
     }
 

@@ -1,30 +1,49 @@
-import { CGFobject } from '../../../lib/CGF.js';
-/**
- * MyRock
- * @constructor
- * @param scene - Reference to MyScene object
- */
+import { CGFobject, CGFappearance, CGFshader, CGFtexture } from '../../../lib/CGF.js';
+import { MySphere } from '../../oldClasses/MySphere.js';
+
 export class MyRock extends CGFobject {
-    constructor(scene) {
+    constructor(scene, rStem) {
         super(scene);
-        this.initBuffers();
+        this.rStem = rStem;
+        this.margin = 0.1;
+
+        this.rock = new MySphere(scene, this.rStem, 20, 20);
+
+        // Grey color
+        this.grey = new CGFappearance(this.scene);
+        this.grey.setAmbient(0.3, 0.3, 0.3, 1); 
+        this.grey.setDiffuse(0.5, 0.5, 0.5, 1); 
+        this.grey.setSpecular(0.1, 0.1, 0.1, 1); 
+        this.grey.setShininess(5.0);
+
+        // Shader
+        this.shader = new CGFshader(scene.gl, 'project/shaders/texture3.vert', 'project/shaders/texture3.frag');
+
+        // Uniforms
+        this.shader.setUniformsValues({ normScale: 0.1 });
+
+        // Textures
+        this.texture = new CGFtexture(scene, 'textures/texture.jpg');
+        this.texture2 = new CGFtexture(scene, 'textures/texture2.jpg');
+        this.shader.setUniformsValues({ uSampler: 0, uSampler2: 1 });
     }
 
-    initBuffers() {
-        this.vertices = [
+    display() {
+        // Enable shader
+        this.scene.setActiveShader(this.shader);
 
-        ];
+        // Set textures
+        this.scene.setActiveTexture(this.texture, 0);
+        this.scene.setActiveTexture(this.texture2, 1);
 
-        //Counter-clockwise reference of vertices
-        this.indices = [
+        // Rock
+        this.scene.pushMatrix();
+        this.grey.apply();
+        this.scene.translate(0, this.rStem, 0);
+        this.rock.display();
+        this.scene.popMatrix();
 
-        ];
-
-        //The defined indices (and corresponding vertices)
-        //will be read in groups of three to draw triangles
-        this.primitiveType = this.scene.gl.TRIANGLES;
-
-        this.initGLBuffers();
+        // Disable shader
+        this.scene.setActiveShader(this.scene.defaultShader);
     }
 }
-
