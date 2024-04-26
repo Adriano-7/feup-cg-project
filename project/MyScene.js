@@ -3,7 +3,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./objects/MySphere.js";
 import { MyPanorama } from "./objects/MyPanorama.js";
 import { MyFlower } from './objects/MyFlower/MyFlower.js';
-import { MyRock } from './objects/MyRockSet/MyRock.js';
+import { MyRockSphere } from './objects/MyRockSet/MyRockSphere.js';
 import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
@@ -75,7 +75,7 @@ export class MyScene extends CGFscene {
         );
         
 
-        this.rock = new MyRock(this, 5);
+        this.rock = new MyRockSphere(this, 5);
         this.rockset = new MyRockSet(this);
         this.hive = new MyHive(this);
         this.bee = new MyBee(this);
@@ -112,8 +112,8 @@ export class MyScene extends CGFscene {
 
         this.displayPanorama = false;
         this.displayFlower = false;
-        this.displayRock = true;
-        this.displayRockSet = false;
+        this.displayRock = false;
+        this.displayRockSet = true;
         this.displayHive = false;
         this.displayBee = false;
         this.displayGarden = false;
