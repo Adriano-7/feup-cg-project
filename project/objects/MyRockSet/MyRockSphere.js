@@ -26,7 +26,7 @@ export class MyRockSphere extends CGFobject {
         this.rockTexture.bind();
 
         // Translate to position and display rock
-        this.scene.translate(0, this.rStem, 0);
+        this.scene.translate(0, this.rStem-this.rStem/2, 0);
         this.rock.display();
         
         // restore default shader (will be needed for drawing the axis in next frame)

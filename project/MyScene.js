@@ -112,8 +112,8 @@ export class MyScene extends CGFscene {
 
         this.displayPanorama = false;
         this.displayFlower = false;
-        this.displayRock = false;
-        this.displayRockSet = true;
+        this.displayRock = true;
+        this.displayRockSet = false;
         this.displayHive = false;
         this.displayBee = false;
         this.displayGarden = false;
