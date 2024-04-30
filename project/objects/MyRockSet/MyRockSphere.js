@@ -20,7 +20,7 @@ export class MyRockSphere extends CGFobject {
         this.scene.pushMatrix();
 
         // Apply shader
-        this.scene.setActiveShader(this.rockShader);
+        this.scene.setActiveShadWer(this.rockShader);
 
         // Apply texture
         this.rockTexture.bind();
