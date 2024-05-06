@@ -38,7 +38,7 @@ export class MyScene extends CGFscene {
         this.axis = new CGFaxis(this);
         this.plane = new MyPlane(this, 30);
         this.skySphere = new MySphere(this, 30, 30);
-        this.panoramaTexture = new CGFtexture(this, "images/panorama4.jpg");
+        this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
         this.panorama = new MyPanorama(this, this.panoramaTexture);
         this.flower = new MyFlower(this, 10, 10);
         this.rock = new MyRock(this, 10, 10);
@@ -90,6 +90,16 @@ export class MyScene extends CGFscene {
         this.displayBee = true;
         this.displayGrass = false;
 
+        // Initialize bee state and variables
+        this.beePosition = vec3.fromValues(0, 3, 0); // Initial position of the bee
+        this.oscillationSpeed = 2 * Math.PI; // Speed of oscillation (radians per second)
+        this.oscillationAmplitude = 0.2; // Amplitude of oscillation (units)
+        this.oscillationPhase = 0; // Current phase of oscillation animation
+
+        this.previousTime = 0; // Time of the previous update
+
+        // set the scene update period 
+        this.setUpdatePeriod(50);
     }
 
     initLights() {
@@ -119,6 +129,24 @@ export class MyScene extends CGFscene {
     updateObjectTexture() {
         this.objects[this.selectedObject].updateBuffers(this.objectComplexity);
     }
+
+    update(t) {
+        // Calculate time delta
+        const deltaTime = t - this.previousTime;
+        this.previousTime = t;
+
+        // Update oscillation animation
+        const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+        this.oscillationPhase += oscillationDelta;
+        const oscillationOffset = Math.sin(this.oscillationPhase) * this.oscillationAmplitude;
+
+        // Update bee position
+        this.beePosition[1] = 3 + oscillationOffset; // Adjust vertical position based on oscillation
+
+        // Update bee display position
+        this.bee.updatePosition(this.beePosition);
+    }
+
 
     display() {
         // Clear image and depth buffer every time we update the scene
@@ -167,7 +195,6 @@ export class MyScene extends CGFscene {
         if (this.displayFlower) this.flower.display();
         if (this.displayRock) this.rock.display();
         if (this.displayRockSet) this.rockset.display();
-        if (this.displayBee) this.bee.display();
         if (this.displayHive) this.hive.display();
         if (this.displayGrass) this.grass.display();
 

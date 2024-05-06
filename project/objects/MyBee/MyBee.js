@@ -33,9 +33,14 @@ export class MyBee extends CGFobject {
         this.abdomenMaterial.setEmission(1, 1, 1, 1);
         this.abdomenMaterial.setTexture(textureAbdomen);
         this.abdomenMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.position = [0, 3, 0];
     }
 
     display() {
+        this.scene.pushMatrix();
+        this.scene.translate(this.position[0], this.position[1], this.position[2]);
+
         this.scene.pushMatrix();
         this.headMaterial.apply();
 
@@ -149,7 +154,6 @@ export class MyBee extends CGFobject {
         this.wing.display();
         this.scene.popMatrix();
 
-
         //Display the head
         this.scene.pushMatrix();
         this.scene.translate(0, 0, -1);
@@ -188,7 +192,6 @@ export class MyBee extends CGFobject {
         this.torax.display();
         this.scene.popMatrix();
 
-
         // Display the right eye   
         this.scene.pushMatrix();
         this.scene.translate(0.6, 0.1, -1.7);
@@ -205,6 +208,10 @@ export class MyBee extends CGFobject {
         this.eye.display();
         this.scene.popMatrix();
 
+        this.scene.popMatrix();
     }
 
+    updatePosition(position) {
+        this.position = position;
+    }
 }
