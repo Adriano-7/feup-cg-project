@@ -34,6 +34,15 @@ export class MyBee extends CGFobject {
         this.abdomenMaterial.setTexture(textureAbdomen);
         this.abdomenMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
+        this.wingsMaterial = new CGFappearance(this.scene);
+        this.wingsMaterial.setTexture(textureBody);
+        this.wingsMaterial.setEmission(0, 0, 0, 0);
+        this.wingsMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        this.wingsMaterial.setAmbient(0.3, 0.3, 0.3, 0.3);
+        this.wingsMaterial.setDiffuse(0.6, 0.6, 0.6, 0.2);
+        this.wingsMaterial.setSpecular(0, 0, 0, 0);
+        this.wingsMaterial.setShininess(0);
+
         this.position = [0, 3, 0];
     }
 
@@ -140,20 +149,6 @@ export class MyBee extends CGFobject {
         this.leg.display();
         this.scene.popMatrix();
 
-        // Display the right wing
-        this.scene.pushMatrix();
-        this.scene.translate(1.8, -0.2, 1.2);
-        this.scene.rotate(Math.PI / 12, 1, 0, 0);
-        this.wing.display();
-        this.scene.popMatrix();
-
-        // Display the left wing
-        this.scene.pushMatrix();
-        this.scene.translate(-1.8, -0.2, 1.2);
-        this.scene.rotate(Math.PI / 12, 1, 0, 0);
-        this.wing.display();
-        this.scene.popMatrix();
-
         //Display the head
         this.scene.pushMatrix();
         this.scene.translate(0, 0, -1);
@@ -206,6 +201,29 @@ export class MyBee extends CGFobject {
         this.scene.rotate(1, 1, -Math.PI / 2, 0);
         this.scene.scale(0.1, 0.1, 0.1);
         this.eye.display();
+        this.scene.popMatrix();
+
+
+        this.scene.pushMatrix();
+        this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);
+        this.scene.gl.enable(this.scene.gl.BLEND);
+        this.wingsMaterial.apply();
+
+        // Display the right wing
+        this.scene.pushMatrix();
+        this.scene.translate(1.8, -0.2, 1.2);
+        this.scene.rotate(Math.PI / 12, 1, 0, 0);
+        this.wing.display();
+        this.scene.popMatrix();
+
+        // Display the left wing
+        this.scene.pushMatrix();
+        this.scene.translate(-1.8, -0.2, 1.2);
+        this.scene.rotate(Math.PI / 12, 1, 0, 0);
+        this.wing.display();
+        this.scene.popMatrix();
+
+        this.scene.gl.disable(this.scene.gl.BLEND);
         this.scene.popMatrix();
 
         this.scene.popMatrix();
