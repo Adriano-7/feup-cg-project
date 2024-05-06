@@ -44,8 +44,8 @@ export class MySphere extends CGFobject {
                     this.normals.push(x, y, z);
                 }
 
-                const s = long / this.longitude;
-                const t = lat / (this.latitude - 1);
+                const s = 1 - (long / this.longitude);
+                const t = lat / this.latitude;
                 this.texCoords.push(s, t);
 
                 if (lat < this.latitude && long < this.longitude) {
