@@ -95,6 +95,8 @@ export class MyScene extends CGFscene {
         this.oscillationSpeed = 2 * Math.PI; // Speed of oscillation (radians per second)
         this.oscillationAmplitude = 0.2; // Amplitude of oscillation (units)
         this.oscillationPhase = 0; // Current phase of oscillation animation
+        this.wingAngle = 0; // Initial wing rotation angle
+        this.wingSpeed = 3; // Speed of wing flapping (in radians per second)
 
         this.previousTime = 0; // Time of the previous update
 
@@ -143,8 +145,12 @@ export class MyScene extends CGFscene {
         // Update bee position
         this.beePosition[1] = 3 + oscillationOffset; // Adjust vertical position based on oscillation
 
+        // Update wing rotation angle
+        this.wingAngle += this.wingSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+
         // Update bee display position
         this.bee.updatePosition(this.beePosition);
+        this.bee.updateWings(this.wingAngle);
     }
 
 

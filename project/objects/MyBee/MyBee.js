@@ -44,6 +44,7 @@ export class MyBee extends CGFobject {
         this.wingsMaterial.setShininess(0);
 
         this.position = [0, 3, 0];
+        this.wingAngle = 0;
     }
 
     display() {
@@ -211,15 +212,15 @@ export class MyBee extends CGFobject {
 
         // Display the right wing
         this.scene.pushMatrix();
-        this.scene.translate(1.8, -0.2, 1.2);
-        this.scene.rotate(Math.PI / 12, 1, 0, 0);
+        this.scene.translate(1.9, -0.2, 1.2);
+        this.scene.rotate(Math.sin(this.wingAngle) * Math.PI / 24, 0, 0, 1); // Flap the wing based on sine function
         this.wing.display();
         this.scene.popMatrix();
 
         // Display the left wing
         this.scene.pushMatrix();
-        this.scene.translate(-1.8, -0.2, 1.2);
-        this.scene.rotate(Math.PI / 12, 1, 0, 0);
+        this.scene.translate(-1.9, -0.2, 1.2);
+        this.scene.rotate(-Math.sin(this.wingAngle) * Math.PI / 24, 0, 0, 1); // Flap the wing based on sine function
         this.wing.display();
         this.scene.popMatrix();
 
@@ -231,5 +232,9 @@ export class MyBee extends CGFobject {
 
     updatePosition(position) {
         this.position = position;
+    }
+
+    updateWings(angle) {
+        this.wingAngle = angle;
     }
 }
