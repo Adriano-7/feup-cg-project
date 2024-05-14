@@ -27,10 +27,12 @@ export class MyInterface extends CGFinterface {
         objMenu.add(this.scene, 'displayPanorama').name('Display Panorama');
         objMenu.add(this.scene, 'displayFlower').name('Display Flower');
         objMenu.add(this.scene, 'displayRock').name('Display Rock');
-        objMenu.add(this.scene, 'displayRockSet').name('Display Rock Set');
         objMenu.add(this.scene, 'displayBee').name('Display Bee');
         objMenu.add(this.scene, 'displayHive').name('Display Hive');
+
+        objMenu.add(this.scene, 'displayRockSet').name('Display RockSet');
         objMenu.add(this.scene, 'displayGarden').name('Display Garden');
+
 
         //Slider element in GUI
         this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');

@@ -7,7 +7,7 @@ export class MyGarden extends CGFobject {
         this.numRows = numRows;
         this.numCols = numCols;
         this.flowers = [];
-        this.margin = 40;
+        this.margin = 60;
         this.radius = 0;
         this.smallMargin = 0.2;
 
@@ -124,8 +124,8 @@ export class MyGarden extends CGFobject {
                 const radius = flower.randomRExt;
                 const height = flower.randomHStem;
                 this.scene.pushMatrix();
-                const x = i * (2 * radius + this.margin) - 2 * radius;
-                const z = j * (2 * radius + this.margin) - 2 * radius;
+                const x = i * (3*radius + this.margin);
+                const z = j * (3*radius + this.margin);
                 this.scene.translate(x, 2*height, z);
                 flower.display();
                 this.scene.popMatrix();

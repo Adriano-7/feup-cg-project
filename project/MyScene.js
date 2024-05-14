@@ -75,8 +75,8 @@ export class MyScene extends CGFscene {
         );
         
 
-        this.rock = new MyRockSphere(this, 5);
-        this.rockset = new MyRockSet(this);
+        this.rock = new MyRockSphere(this, 3, 1);
+        this.rockset = new MyRockSet(this, 4, 4);
         this.hive = new MyHive(this);
         this.bee = new MyBee(this);
         this.garden = new MyGarden(this,4,4);
@@ -114,9 +114,9 @@ export class MyScene extends CGFscene {
         this.displayFlower = false;
         this.displayRock = false;
         this.displayRockSet = true;
+        this.displayGarden = true;
         this.displayHive = false;
         this.displayBee = false;
-        this.displayGarden = false;
 
     }
 
@@ -133,8 +133,8 @@ export class MyScene extends CGFscene {
         this.camera = new CGFcamera(
             1.5,
             0.2,
-            1000,
-            vec3.fromValues(6, 5, 12),
+            10000,
+            vec3.fromValues(100, 250, 300),
             vec3.fromValues(0, 0, 0)
         );
     }
@@ -169,11 +169,12 @@ export class MyScene extends CGFscene {
         if (this.displayPanorama) {
             this.panorama.display();
         } else {
+            const sizeSphere = 800;
             // Draw sky-sphere
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, 0, 0);
-            this.scale(400, 400, 400);
+            this.translate(sizeSphere/3, 0, sizeSphere/3);
+            this.scale(sizeSphere, sizeSphere, sizeSphere);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();
             this.popMatrix();
@@ -189,7 +190,12 @@ export class MyScene extends CGFscene {
 
         // ---- BEGIN Primitive drawing section
 
-        if(this.displayFlower) this.flower.display();
+        if(this.displayFlower) {
+            this.pushMatrix();
+            this.translate(0,2*6,0);
+            this.flower.display();
+
+        }
         if(this.displayRock) this.rock.display();
         if(this.displayRockSet) this.rockset.display();
         if(this.displayBee) this.bee.display();

@@ -13,7 +13,7 @@ export class MyFlower extends CGFobject {
         super(scene);
 
         let lPetals = rExt - rReceptable
-        let nLayers = 1;
+        let nLayers = 3;
     
         // Create petal and receptacle objects
         this.petals = new MyPetals(scene, rExt, nPetals, lPetals, nLayers);
