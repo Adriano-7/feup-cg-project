@@ -7,6 +7,7 @@ uniform mat4 uPMatrix;
 uniform mat4 uNMatrix;
 
 varying vec2 vTextureCoord;
+uniform sampler2D uSampler;
 uniform sampler2D uSampler2;
 
 uniform float normScale;
@@ -17,20 +18,30 @@ void main() {
     vTextureCoord = aTextureCoord;
 
     // Sample the second texture to determine offset
-    vec4 filter = texture2D(uSampler2, vec2(0.0, 0.1) + vTextureCoord);
+    vec4 filter = texture2D(uSampler2, vTextureCoord);
     if (filter.b > 0.5) {
         // Apply deformation based on vertex normal
         offset = aVertexNormal * normScale * 0.1;
     }
 
-    // Apply offset to vertex position for deformation
     vec3 deformedPosition = aVertexPosition + offset;
 
-    // Apply additional deformation for a more rocky appearance
-    // You can experiment with different functions to achieve desired results
-    float deformation = sin(deformedPosition.x * 5.0) * cos(deformedPosition.y * 5.0) * 0.1;
-    deformedPosition += aVertexNormal * deformation;
+    // Apply deformation to mimic rock-like shapes
+    float deformation1 = sin(deformedPosition.x * 10.0) * cos(deformedPosition.y * 10.0) * 0.1;
+    float deformation2 = sin(deformedPosition.y * 15.0) * cos(deformedPosition.z * 15.0) * 0.05;
+    float deformation3 = sin(deformedPosition.z * 5.0) * cos(deformedPosition.x * 5.0) * 0.05;
 
-    // Transform the deformed position
+    deformedPosition += aVertexNormal * (deformation1 + deformation2 + deformation3);
+
+    // Add some additional deformations
+    float deformation4 = sin(deformedPosition.x * 20.0) * cos(deformedPosition.y * 20.0) * 0.05;
+    float deformation5 = sin(deformedPosition.y * 25.0) * cos(deformedPosition.z * 25.0) * 0.03;
+    float deformation6 = sin(deformedPosition.z * 15.0) * cos(deformedPosition.x * 15.0) * 0.03;
+
+    deformedPosition += aVertexNormal * (deformation4 + deformation5 + deformation6);
+
+    // Add some randomness to the deformation for a more natural look
+    deformedPosition += normalize(vec3(sin(deformedPosition.x * 0.5), cos(deformedPosition.y * 0.5), sin(deformedPosition.z * 0.5))) * 0.05;
+
     gl_Position = uPMatrix * uMVMatrix * vec4(deformedPosition, 1.0);
 }

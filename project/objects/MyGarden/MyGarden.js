@@ -123,7 +123,6 @@ export class MyGarden extends CGFobject {
                 const flower = this.flowers[flowerIndex];
                 const radius = flower.randomRExt;
                 const height = flower.randomHStem;
-                console.log("flower at position (" + i + ", " + j + "): " + height);
                 this.scene.pushMatrix();
                 const x = i * (2 * radius + this.margin) - 2 * radius;
                 const z = j * (2 * radius + this.margin) - 2 * radius;
