@@ -44,12 +44,17 @@ export class MyBee extends CGFobject {
         this.wingsMaterial.setShininess(0);
 
         this.position = [0, 3, 0];
+        this.orientation = 0;
+        this.velocity = [0, 0, 0];
         this.wingAngle = 0;
     }
 
     display() {
         this.scene.pushMatrix();
+
         this.scene.translate(this.position[0], this.position[1], this.position[2]);
+        this.scene.rotate(this.orientation, 0, 1, 0);
+        this.scene.scale(1, 1, -1);
 
         this.scene.pushMatrix();
         this.headMaterial.apply();
@@ -230,11 +235,41 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
     }
 
+    update(delta_t) {
+        this.position[0] += this.velocity[0] * delta_t;
+        this.position[1] += this.velocity[1] * delta_t;
+        this.position[2] += this.velocity[2] * delta_t;
+
+        this.velocity[0] *= 0.90;
+        this.velocity[1] *= 0.90;
+        this.velocity[2] *= 0.90;
+    }
+
+    turn(val) {
+        this.orientation += val;
+    }
+
+    accelerate(val) {
+        this.velocity[0] += val * Math.sin(this.orientation);
+        this.velocity[1] += val * Math.sin(this.orientation);
+        this.velocity[2] += val * Math.cos(this.orientation);
+    }
+
     updatePosition(position) {
         this.position = position;
     }
 
     updateWings(angle) {
         this.wingAngle = angle;
+    }
+
+    resetPosition() {
+        this.position = [0, 3, 0];
+        this.orientation = 0;
+        this.velocity = [0, 0, 0];
+    }
+
+    getPosition() {
+        return this.position;
     }
 }

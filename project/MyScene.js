@@ -9,8 +9,6 @@ import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
 import { MyGrass } from './objects/MyGrass/MyGrass.js';
 
-
-
 /**
  * MyScene
  * @constructor
@@ -91,7 +89,6 @@ export class MyScene extends CGFscene {
         this.displayGrass = false;
 
         // Initialize bee state and variables
-        this.beePosition = vec3.fromValues(0, 3, 0); // Initial position of the bee
         this.oscillationSpeed = 2 * Math.PI; // Speed of oscillation (radians per second)
         this.oscillationAmplitude = 0.2; // Amplitude of oscillation (units)
         this.oscillationPhase = 0; // Current phase of oscillation animation
@@ -136,6 +133,7 @@ export class MyScene extends CGFscene {
         // Calculate time delta
         const deltaTime = t - this.previousTime;
         this.previousTime = t;
+        this.beePosition = this.bee.getPosition();
 
         // Update oscillation animation
         const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
@@ -151,6 +149,7 @@ export class MyScene extends CGFscene {
         // Update bee display position
         this.bee.updatePosition(this.beePosition);
         this.bee.updateWings(this.wingAngle);
+        this.bee.update(deltaTime);
     }
 
 
@@ -205,6 +204,45 @@ export class MyScene extends CGFscene {
         if (this.displayGrass) this.grass.display();
 
         // ---- END Primitive drawing section
+
+        this.checkKeys();
+    }
+
+    checkKeys() {
+        var text = "Keys pressed: ";
+        var keysPressed = false;
+
+        if (this.gui.isKeyPressed("KeyW")) {
+            text += " W ";
+            keysPressed = true;
+            this.bee.accelerate(0.001);
+        }
+
+        if (this.gui.isKeyPressed("KeyS")) {
+            text += " S ";
+            keysPressed = true;
+            this.bee.accelerate(-0.001);
+        }
+
+        if (this.gui.isKeyPressed("KeyA")) {
+            text += " A ";
+            keysPressed = true;
+            this.bee.turn(0.03);
+        }
+
+        if (this.gui.isKeyPressed("KeyD")) {
+            text += " D ";
+            keysPressed = true;
+            this.bee.turn(-0.03);
+        }
+
+        if (this.gui.isKeyPressed("KeyR")) {
+            this.bee.resetPosition();
+        }
+
+        if (keysPressed) {
+            console.log(text);
+        }
 
     }
 }
