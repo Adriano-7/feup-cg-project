@@ -240,6 +240,11 @@ export class MyBee extends CGFobject {
         this.position[1] += this.velocity[1] * delta_t;
         this.position[2] += this.velocity[2] * delta_t;
 
+        this.position[0] = Math.min(Math.max(this.position[0], -120), 120);
+        this.position[1] = Math.min(Math.max(this.position[1], -120), 120);
+        this.position[2] = Math.min(Math.max(this.position[2], -120), 120);
+
+
         this.velocity[0] *= 0.90;
         this.velocity[1] *= 0.90;
         this.velocity[2] *= 0.90;
