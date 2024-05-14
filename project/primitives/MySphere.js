@@ -39,7 +39,7 @@ export class MySphere extends CGFobject {
                 this.vertices.push(x, y, z);
 
                 if (this.inverted) {
-                    this.normals.push(-x, y, -z);
+                    this.normals.push(-x, -y, -z);
                 } else {
                     this.normals.push(x, y, z);
                 }

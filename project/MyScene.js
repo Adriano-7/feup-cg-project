@@ -73,6 +73,7 @@ export class MyScene extends CGFscene {
         this.terrainAppearance = new CGFappearance(this);
         this.terrainAppearance.setTexture(this.terrainTexture);
         this.terrainAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.terrainAppearance.setEmission(1, 1, 1, 1);
 
         this.earthTexture = new CGFtexture(this, "images/earth.jpg");
         this.earthAppearance = new CGFappearance(this);
@@ -175,9 +176,19 @@ export class MyScene extends CGFscene {
 
         if (this.displayPanorama) {
             this.panorama.display();
+
+            this.pushMatrix();
+            this.terrainAppearance.apply();
+            this.translate(0, -100, 0);
+            this.scale(400, 400, 400);
+            this.rotate(-Math.PI / 2.0, 1, 0, 0);
+            this.plane.display();
+            this.popMatrix();
         }
         if (this.displayBee) {
             this.bee.display();
+
+
         } else {
             // Draw sky-sphere
             this.pushMatrix();
