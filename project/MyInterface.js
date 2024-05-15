@@ -17,23 +17,18 @@ export class MyInterface extends CGFinterface {
         // https://github.com/dataarts/dat.gui/blob/master/API.md
         this.gui = new dat.GUI();
 
-        //Checkbox element in GUI
-        let displayMenu = this.gui.addFolder('Displays')
-        displayMenu.add(this.scene, 'displayAxis').name('Display Axis');
-        displayMenu.add(this.scene, 'displayNormals').name('Display Normals');
-
         //Dropdown for elements
-        let objMenu = this.gui.addFolder('Visible Elements')
-        objMenu.add(this.scene, 'displayPanorama').name('Display Panorama');
-        objMenu.add(this.scene, 'displayFlower').name('Display Flower');
-        objMenu.add(this.scene, 'displayRock').name('Display Rock');
-        objMenu.add(this.scene, 'displayRockSet').name('Display Rock Set');
-        objMenu.add(this.scene, 'displayBee').name('Display Bee');
-        objMenu.add(this.scene, 'displayHive').name('Display Hive');
-        objMenu.add(this.scene, 'displayGrass').name('Display Grass');
+        this.gui.add(this.scene, 'displayPanorama').name('Display Panorama');
+        this.gui.add(this.scene, 'displayFlowers').name('Display Flowers');
+        this.gui.add(this.scene, 'displayBee').name('Display Bee');
+        this.gui.add(this.scene, 'displayRock').name('Display Rock');
+        this.gui.add(this.scene, 'displayRockSet').name('Display Rock Set');
+        this.gui.add(this.scene, 'displayHive').name('Display Hive');
+        this.gui.add(this.scene, 'displayGrass').name('Display Grass');
 
         //Slider element in GUI
-        this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
+        this.gui.add(this.scene, 'scaleFactor', 0.5, 3).name('Scale Factor');
+        this.gui.add(this.scene, 'speedFactor', 0.1, 3).name('Speed Factor');
 
         this.initKeys();
 

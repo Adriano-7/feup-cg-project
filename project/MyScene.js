@@ -98,6 +98,7 @@ export class MyScene extends CGFscene {
         this.displayAxis = true;
         this.displayNormals = false;
         this.scaleFactor = 1;
+        this.speedFactor = 1;
 
         this.enableTextures(true);
 
@@ -114,11 +115,11 @@ export class MyScene extends CGFscene {
 
 
         this.displayPanorama = true;
-        this.displayFlower = false;
+        this.displayBee = true;
+        this.displayFlowers = true;
         this.displayRock = false;
         this.displayRockSet = false;
         this.displayHive = false;
-        this.displayBee = true;
         this.displayGrass = false;
 
         // Initialize bee state and variables
@@ -219,7 +220,6 @@ export class MyScene extends CGFscene {
         }
         if (this.displayBee) {
             this.bee.display();
-            this.garden.display();
         } else {
             // Draw sky-sphere
             this.pushMatrix();
@@ -239,7 +239,7 @@ export class MyScene extends CGFscene {
         }
 
 
-        if (this.displayFlower) this.flower.display();
+        if (this.displayFlowers) this.garden.display();
         if (this.displayRock) this.rock.display();
         if (this.displayRockSet) this.rockset.display();
         if (this.displayHive) this.hive.display();

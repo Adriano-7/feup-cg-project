@@ -233,6 +233,7 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.popMatrix();
+        this.scene.popMatrix();
     }
 
     update(delta_t) {
