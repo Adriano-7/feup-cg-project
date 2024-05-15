@@ -1,5 +1,5 @@
 import { CGFobject } from '../../../lib/CGF.js';
-import { MyEllipsoidClar } from '../../primitives/MyEllipsoidClar.js';
+import { MyEllipsoid } from '../../primitives/MyEllipsoid.js';
 
 /**
  * MyReceptable
@@ -9,13 +9,10 @@ import { MyEllipsoidClar } from '../../primitives/MyEllipsoidClar.js';
 export class MyReceptable extends CGFobject {
     constructor(scene, rReceptable) {
         super(scene);
-
-        // Pass slices and stacks parameters when creating MySphere
-        this.sphere = new MyEllipsoidClar(scene, rReceptable); // You can adjust the values of slices and stacks as needed
+        this.ellipsoid = new MyEllipsoid(scene, 100, 100, [rReceptable, rReceptable, rReceptable / 2]);
     }
 
     display() {
-        // Display the sphere
-        this.sphere.display();
+        this.ellipsoid.display();
     }
 }

@@ -35,50 +35,11 @@ export class MyScene extends CGFscene {
         //Initialize scene objects
         this.axis = new CGFaxis(this);
         this.plane = new MyPlane(this, 30);
-        this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
-        this.panorama = new MyPanorama(this, this.panoramaTexture);
+        this.panorama = new MyPanorama(this);
 
-        // cPetals Material
-        this.cPetals = new CGFappearance(this);
-        this.cPetals.setAmbient(1, 0.608, 0.812, 1);
-        this.cPetals.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
-        this.cPetals.setSpecular(1, 0.608, 0.812, 1);
-        this.cPetals.setShininess(10.0);
-
-        // cReceptable Material
-        this.cReceptable = new CGFappearance(this);
-        this.cReceptable.setAmbient(1 * 0.8, 1 * 0.8, 0, 1); // Full intensity yellow ambient light
-        this.cReceptable.setDiffuse(1, 1, 0, 1); // Intense yellow diffuse light
-        this.cReceptable.setSpecular(1, 1, 0, 1); // Yellow specular highlights
-        this.cReceptable.setShininess(10.0); // Adjust shininess as needed
-
-        // cStem Material
-        this.cStem = new CGFappearance(this);
-        this.cStem.setAmbient(0, 1 * 0.8, 0, 1);
-        this.cStem.setDiffuse(0 * 0.4, 1 * 0.4, 0 * 0.4, 1);
-        this.cStem.setSpecular(0, 1, 0, 1);
-        this.cStem.setShininess(10.0);
-
-        this.flower = new MyFlower(
-            this,
-            7, // rExt
-            15, // nPetals
-            this.cPetals, // cPetals
-            2, // rReceptable
-            this.cReceptable, // cReceptable
-            0.5, // rStem
-            3, // hStem
-            this.cStem, // cStem
-            this.cLeaf // cLeaf
-        );
-
-        this.beeHeadTexture = new CGFtexture(this, "images/bee1.png");
-        this.beeBodyTexture = new CGFtexture(this, "images/bee3.png");
-        this.beeAbdomenTexture = new CGFtexture(this, "images/bee4.png");
-        this.bee = new MyBee(this, this.beeHeadTexture, this.beeBodyTexture, this.beeAbdomenTexture);
+        this.bee = new MyBee(this);
         this.garden = new MyGarden(this, 2, 2);
         this.rockset = new MyRockSet(this, 2, 2);
-
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -93,16 +54,11 @@ export class MyScene extends CGFscene {
         this.terrainAppearance.setTextureWrap('REPEAT', 'REPEAT');
         this.terrainAppearance.setEmission(1, 1, 1, 1);
 
-        this.earthTexture = new CGFtexture(this, "images/earth.jpg");
-        this.earthAppearance = new CGFappearance(this);
-        this.earthAppearance.setTexture(this.earthTexture);
-        this.earthAppearance.setTextureWrap('REPEAT', 'REPEAT');
-
         this.displayPanorama = true;
         this.displayBee = true;
         this.displayFlowers = true;
         this.displayRock = false;
-        this.displayRockSet = true;
+        this.displayRockSet = false;
         this.displayHive = false;
         this.displayGrass = false;
 

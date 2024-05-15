@@ -1,4 +1,4 @@
-import { CGFobject, CGFappearance } from '../../../lib/CGF.js';
+import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
 import { MyEllipsoid } from "../../primitives/MyEllipsoid.js";
 import { MySphere } from "../../primitives/MySphere.js";
 import { MyCylinder } from "../../primitives/MyCylinder.js";
@@ -9,7 +9,7 @@ import { MyCylinder } from "../../primitives/MyCylinder.js";
  * @param scene - Reference to MyScene object
  */
 export class MyBee extends CGFobject {
-    constructor(scene, textureHead, textureBody, textureAbdomen) {
+    constructor(scene) {
         super(scene);
         this.head = new MySphere(scene, 16, 16);
         this.antenna = new MyCylinder(scene, 16, 16);
@@ -19,23 +19,27 @@ export class MyBee extends CGFobject {
         this.wing = new MyEllipsoid(scene, 16, 16, [0.7, 0.1, 0.4]);
         this.eye = new MyEllipsoid(scene, 16, 16, [1.4, 3, 2.5]);
 
+        this.textureHead = new CGFtexture(scene, "images/bee1.png");
+        this.textureBody = new CGFtexture(scene, "images/bee3.png");
+        this.textureAbdomen = new CGFtexture(scene, "images/bee4.png");
+
         this.headMaterial = new CGFappearance(scene);
         this.headMaterial.setEmission(1, 1, 1, 1);
-        this.headMaterial.setTexture(textureHead);
+        this.headMaterial.setTexture(this.textureHead);
         this.headMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
         this.bodyMaterial = new CGFappearance(scene);
         this.bodyMaterial.setEmission(1, 1, 1, 1);
-        this.bodyMaterial.setTexture(textureBody);
+        this.bodyMaterial.setTexture(this.textureBody);
         this.bodyMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
         this.abdomenMaterial = new CGFappearance(scene);
         this.abdomenMaterial.setEmission(1, 1, 1, 1);
-        this.abdomenMaterial.setTexture(textureAbdomen);
+        this.abdomenMaterial.setTexture(this.textureAbdomen);
         this.abdomenMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
         this.wingsMaterial = new CGFappearance(this.scene);
-        this.wingsMaterial.setTexture(textureBody);
+        this.wingsMaterial.setTexture(this.textureBody);
         this.wingsMaterial.setEmission(0, 0, 0, 0);
         this.wingsMaterial.setTextureWrap('REPEAT', 'REPEAT');
         this.wingsMaterial.setAmbient(0.3, 0.3, 0.3, 0.3);

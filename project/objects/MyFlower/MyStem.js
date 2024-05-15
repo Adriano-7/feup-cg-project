@@ -1,6 +1,6 @@
 import { CGFobject } from '../../../lib/CGF.js';
 import { MyCylinder } from '../../primitives/MyCylinder.js';
-import { MyEllipsoidClar } from '../../primitives/MyEllipsoidClar.js';
+import { MyEllipsoid } from '../../primitives/MyEllipsoid.js';
 import { MyLeaf } from '../MyFlower/MyLeaf.js';
 
 export class MyStem extends CGFobject {
@@ -13,7 +13,7 @@ export class MyStem extends CGFobject {
 
         this.cylinder1 = new MyCylinder(scene, 100, 20);
         this.cylinder2 = new MyCylinder(scene, 100, 20);
-        this.elipsoid = new MyEllipsoidClar(scene, 1);
+        this.elipsoid = new MyEllipsoid(scene, 100, 100, [1, 1, 1 / 2]);
         this.leaf = new MyLeaf(scene, 6);
     }
 

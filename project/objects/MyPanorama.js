@@ -1,4 +1,4 @@
-import { CGFobject, CGFappearance } from '../../lib/CGF.js';
+import { CGFobject, CGFappearance, CGFtexture } from '../../lib/CGF.js';
 import { MySphere } from '../primitives/MySphere.js';
 
 /**
@@ -8,14 +8,14 @@ import { MySphere } from '../primitives/MySphere.js';
  * @param texture - CGFtexture object for the panorama
  */
 export class MyPanorama extends CGFobject {
-    constructor(scene, texture) {
+    constructor(scene) {
         super(scene);
         this.sphere = new MySphere(scene, 32, 16, true);
-        this.texture = texture;
+        this.texture = new CGFtexture(scene, "images/panorama.jpg");
 
         this.material = new CGFappearance(scene);
         this.material.setEmission(1, 1, 1, 1);
-        this.material.setTexture(texture);
+        this.material.setTexture(this.texture);
         this.material.setTextureWrap('REPEAT', 'REPEAT');
 
         this.cameraPosition = scene.camera.position;

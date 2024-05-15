@@ -1,7 +1,7 @@
 import { CGFobject, CGFappearance } from '../../../lib/CGF.js';
 import { MyTriangle } from '../../primitives/MyTriangle.js'
 import { MyCylinder } from '../../primitives/MyCylinder.js';
-import { MyEllipsoidClar } from '../../primitives/MyEllipsoidClar.js';
+import { MyEllipsoid } from '../../primitives/MyEllipsoid.js';
 
 export class MyLeaf extends CGFobject {
     constructor(scene, lLeaf) {
@@ -28,8 +28,8 @@ export class MyLeaf extends CGFobject {
         this.triangle2 = new MyTriangle(scene, vertices2);
         this.cylinder1 = new MyCylinder(scene, 100, 20);
         this.cylinder2 = new MyCylinder(scene, 100, 20);
-        this.ellipsoid1 = new MyEllipsoidClar(scene, 1);
-        this.ellipsoid2 = new MyEllipsoidClar(scene, 1);
+        this.ellipsoid1 = new MyEllipsoid(scene, 100, 100, [1, 1, 1 / 2]);
+        this.ellipsoid2 = new MyEllipsoid(scene, 100, 100, [1, 1, 1 / 2]);
 
     }
 
