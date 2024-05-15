@@ -1,34 +1,21 @@
 import { CGFobject } from '../../../lib/CGF.js';
+import { MyEllipsoidClar } from '../../primitives/MyEllipsoidClar.js';
+
 /**
  * MyReceptable
  * @constructor
  * @param scene - Reference to MyScene object
  */
 export class MyReceptable extends CGFobject {
-    constructor(scene) {
+    constructor(scene, rReceptable) {
         super(scene);
-        this.initBuffers();
+
+        // Pass slices and stacks parameters when creating MySphere
+        this.sphere = new MyEllipsoidClar(scene, rReceptable); // You can adjust the values of slices and stacks as needed
     }
 
-    initBuffers() {
-        this.vertices = [
-            -0.5,  0.5, 0,	//0
-             0.5,  0.5, 0,	//1
-             0.5, -0.5, 0,	//2
-            -0.5, -0.5, 0   //3
-        ];
-
-        //Counter-clockwise reference of vertices
-        this.indices = [
-            3, 1, 0,
-            3, 2, 1
-        ];
-
-        //The defined indices (and corresponding vertices)
-        //will be read in groups of three to draw triangles
-        this.primitiveType = this.scene.gl.TRIANGLES;
-
-        this.initGLBuffers();
+    display() {
+        // Display the sphere
+        this.sphere.display();
     }
 }
-

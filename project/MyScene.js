@@ -7,7 +7,7 @@ import { MyRock } from './objects/MyRockSet/MyRock.js';
 import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
-import { MyGrass } from './objects/MyGrass/MyGrass.js';
+import { MyGarden } from './objects/MyGarden/MyGarden.js';
 
 /**
  * MyScene
@@ -35,21 +35,53 @@ export class MyScene extends CGFscene {
         //Initialize scene objects
         this.axis = new CGFaxis(this);
         this.plane = new MyPlane(this, 30);
-        this.skySphere = new MySphere(this, 30, 30);
         this.panoramaTexture = new CGFtexture(this, "images/panorama.jpg");
         this.panorama = new MyPanorama(this, this.panoramaTexture);
-        this.flower = new MyFlower(this, 10, 10);
         this.rock = new MyRock(this, 10, 10);
         this.rockset = new MyRockSet(this, 10, 10);
         this.hive = new MyHive(this, 10, 10);
+
+        // cPetals Material
+        this.cPetals = new CGFappearance(this);
+        this.cPetals.setAmbient(1, 0.608, 0.812, 1);
+        this.cPetals.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
+        this.cPetals.setSpecular(1, 0.608, 0.812, 1);
+        this.cPetals.setShininess(10.0);
+
+        // cReceptable Material
+        this.cReceptable = new CGFappearance(this);
+        this.cReceptable.setAmbient(1 * 0.8, 1 * 0.8, 0, 1); // Full intensity yellow ambient light
+        this.cReceptable.setDiffuse(1, 1, 0, 1); // Intense yellow diffuse light
+        this.cReceptable.setSpecular(1, 1, 0, 1); // Yellow specular highlights
+        this.cReceptable.setShininess(10.0); // Adjust shininess as needed
+
+        // cStem Material
+        this.cStem = new CGFappearance(this);
+        this.cStem.setAmbient(0, 1 * 0.8, 0, 1);
+        this.cStem.setDiffuse(0 * 0.4, 1 * 0.4, 0 * 0.4, 1);
+        this.cStem.setSpecular(0, 1, 0, 1);
+        this.cStem.setShininess(10.0);
+
+        this.flower = new MyFlower(
+            this,
+            7, // rExt
+            15, // nPetals
+            this.cPetals, // cPetals
+            2, // rReceptable
+            this.cReceptable, // cReceptable
+            0.5, // rStem
+            3, // hStem
+            this.cStem, // cStem
+            this.cLeaf // cLeaf
+        );
 
         this.beeHeadTexture = new CGFtexture(this, "images/bee1.png");
         this.beeBodyTexture = new CGFtexture(this, "images/bee3.png");
         this.beeAbdomenTexture = new CGFtexture(this, "images/bee4.png");
         this.bee = new MyBee(this, this.beeHeadTexture, this.beeBodyTexture, this.beeAbdomenTexture);
-        this.grass = new MyGrass(this, 10, 10);
+        this.garden = new MyGarden(this, 2, 2);
 
-        this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.grass];
+        this.objects = [this.panorama, this.bee, this.flower, this.rock, this.rockset, this.hive, this.garden];
         // Labels and ID's for object selection on MyInterface
         this.objectsIDs = {
             'Panorama': 0,
@@ -58,7 +90,7 @@ export class MyScene extends CGFscene {
             'Rock': 3,
             'RockSet': 4,
             'Hive': 5,
-            'Grass': 6
+            'Garden': 6
         };
         this.selectedObject = 1;
 
@@ -187,8 +219,7 @@ export class MyScene extends CGFscene {
         }
         if (this.displayBee) {
             this.bee.display();
-
-
+            this.garden.display();
         } else {
             // Draw sky-sphere
             this.pushMatrix();
@@ -201,7 +232,7 @@ export class MyScene extends CGFscene {
 
             this.pushMatrix();
             this.earthAppearance.apply();
-            this.skySphere.display();
+            this.panorama.display();
             this.objects[this.selectedObject].display();
 
             this.popMatrix();
@@ -212,7 +243,7 @@ export class MyScene extends CGFscene {
         if (this.displayRock) this.rock.display();
         if (this.displayRockSet) this.rockset.display();
         if (this.displayHive) this.hive.display();
-        if (this.displayGrass) this.grass.display();
+        if (this.displayGrass) this.garden.display();
 
         // ---- END Primitive drawing section
 

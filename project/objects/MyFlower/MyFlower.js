@@ -1,52 +1,58 @@
-import { CGFobject } from '../../../lib/CGF.js';
-import { MyPetal } from './MyPetal.js';
+import { CGFappearance, CGFobject } from '../../../lib/CGF.js';
+import { MyPetals } from './MyPetals.js';
 import { MyReceptable } from './MyReceptable.js';
-import { MyStem } from '../../MyStem.js';
-
+import { MyStem } from './MyStem.js';
 
 /**
- *  My Flower
+ *  MyFlower
  * @constructor
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-    constructor(scene) {
+    constructor(scene, rExt, nPetals, cPetals, rReceptable, cReceptable, rStem, hStem, cStem, cLeaf) {
         super(scene);
-        this.petal = new MyPetal(scene);
-        this.receptacle = new MyReceptable(scene);
-        this.steam = new MyStem(scene);
+
+        let lPetals = rExt - rReceptable
+        let nLayers = 1;
+
+        // Create petal and receptacle objects
+        this.petals = new MyPetals(scene, rExt, nPetals, lPetals, nLayers);
+        this.receptacle = new MyReceptable(scene, rReceptable);
+        this.stem = new MyStem(scene, rStem, hStem);
+
+        this.cPetals = cPetals;
+        this.cReceptable = cReceptable
+        this.cStem = cStem
+        this.cLeaf = cLeaf
+
+        // Display colors
+        this.cPetals.apply();
+        this.cReceptable.apply();
+        this.cStem.apply();
     }
 
     display() {
         this.scene.pushMatrix();
         this.scene.rotate(-Math.PI / 2, 1, 0, 0);
-        this.scene.translate(2.7, -3.4, 0);
 
-
-        // My Petal
+        // Display petals
         this.scene.pushMatrix();
-        this.scene.translate(0, 2, 0);
-        this.scene.rotate(-3 * Math.PI / 4, 0, 0, 1);
-        this.triangle.display();
+        this.cPetals.apply();
+        this.petals.display();
         this.scene.popMatrix();
 
-        // My Receptacle
+        // Display receptacle
         this.scene.pushMatrix();
-        this.scene.translate(-1.4, -1.4, 0);
-        this.scene.rotate(-3 * Math.PI / 4, 0, 0, 1);
-        this.blue.apply();
-        this.trianglebig.display();
+        this.cReceptable.apply();
+        this.receptacle.display();
         this.scene.popMatrix();
 
-        // My Stem
+        // Display stem
         this.scene.pushMatrix();
-        this.scene.scale(-1, 1, 1);
-        this.scene.rotate(-Math.PI * 3 / 4, 0, 0, 1);
-        this.yellow.apply();
-        this.parallelogram.display();
+        this.cStem.apply();
+        this.stem.display();
         this.scene.popMatrix();
 
         this.scene.popMatrix();
-
     }
 }
