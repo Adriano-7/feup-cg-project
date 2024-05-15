@@ -7,7 +7,7 @@ export class MyGarden extends CGFobject {
         this.numRows = numRows;
         this.numCols = numCols;
         this.flowers = [];
-        this.margin = 40;
+        this.margin = 20;
         this.radius = 0;
         this.smallMargin = 0.2;
 
@@ -19,13 +19,13 @@ export class MyGarden extends CGFobject {
         this.c10.setShininess(10.0);
 
         this.c11 = new CGFappearance(this.scene);
-        this.c11.setAmbient(1, 0.608 - this.smallMargin, 0.812, 1);
+        this.c11.setAmbient(1, 0.608-this.smallMargin, 0.812, 1);
         this.c11.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
         this.c11.setSpecular(1, 0.608, 0.812, 1);
         this.c11.setShininess(10.0);
 
         this.c12 = new CGFappearance(this.scene);
-        this.c12.setAmbient(1, 0.608 + this.smallMargin, 0.812, 1);
+        this.c12.setAmbient(1, 0.608+this.smallMargin, 0.812, 1);
         this.c12.setDiffuse(1 * 0.4, 0.608 * 0.4, 0.812 * 0.4, 1);
         this.c12.setSpecular(1, 0.608, 0.812, 1);
         this.c12.setShininess(10.0);
@@ -38,13 +38,13 @@ export class MyGarden extends CGFobject {
         this.c20.setShininess(10.0);
 
         this.c21 = new CGFappearance(this.scene);
-        this.c21.setAmbient(0.8, 0.8 - this.smallMargin, 0, 1);
+        this.c21.setAmbient(0.8, 0.8-this.smallMargin, 0, 1);
         this.c21.setDiffuse(1, 1, 0, 1);
         this.c21.setSpecular(1, 1, 0, 1);
         this.c21.setShininess(10.0);
 
         this.c22 = new CGFappearance(this.scene);
-        this.c22.setAmbient(0.8, 0.8 + this.smallMargin, 0, 1);
+        this.c22.setAmbient(0.8, 0.8+this.smallMargin, 0, 1);
         this.c22.setDiffuse(1, 1, 0, 1);
         this.c22.setSpecular(1, 1, 0, 1);
         this.c22.setShininess(10.0);
@@ -58,13 +58,13 @@ export class MyGarden extends CGFobject {
         this.c30.setShininess(10.0);
 
         this.c31 = new CGFappearance(this.scene);
-        this.c31.setAmbient(0, 0.8 - this.smallMargin, 0, 1);
+        this.c31.setAmbient(0, 0.8-this.smallMargin, 0, 1);
         this.c31.setDiffuse(0, 0.4, 0, 1);
         this.c31.setSpecular(0, 1, 0, 1);
         this.c31.setShininess(10.0);
 
         this.c32 = new CGFappearance(this.scene);
-        this.c32.setAmbient(0, 0.8 + this.smallMargin, 0, 1);
+        this.c32.setAmbient(0, 0.8+this.smallMargin, 0, 1);
         this.c32.setDiffuse(0, 0.4, 0, 1);
         this.c32.setSpecular(0, 1, 0, 1);
         this.c32.setShininess(10.0);
@@ -82,7 +82,7 @@ export class MyGarden extends CGFobject {
         for (let i = 0; i < this.numRows; i++) {
             for (let j = 0; j < this.numCols; j++) {
                 const randomRStem = Math.floor(Math.random() * 2 + 2);
-                const randomHStem = randomRStem + Math.floor(Math.random() * 25 + 6);
+                const randomHStem = randomRStem + Math.floor(Math.random()*25 + 6);
                 const randomRReceptable = 2 * randomRStem + Math.floor(Math.random() * 7);
                 const randomRExt = 3 * randomRReceptable + Math.floor(Math.random() * 12);
                 const randomNPetals = Math.floor(Math.random() * 19 + 8);
@@ -123,14 +123,14 @@ export class MyGarden extends CGFobject {
                 const flower = this.flowers[flowerIndex];
                 const radius = flower.randomRExt;
                 const height = flower.randomHStem;
-                console.log("flower at position (" + i + ", " + j + "): " + height);
                 this.scene.pushMatrix();
-                const x = i * (2 * radius + this.margin) - 2 * radius;
-                const z = j * (2 * radius + this.margin) - 2 * radius;
-                this.scene.translate(x, 2 * height - 100, z);
+                const x = i * (3*radius + this.margin);
+                const z = j * (3*radius + this.margin);
+                this.scene.translate(x, 2*height-100, z);
                 flower.display();
                 this.scene.popMatrix();
             }
         }
     }
 }
+

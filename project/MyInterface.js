@@ -18,6 +18,7 @@ export class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         //Dropdown for elements
+        this.gui.add(this.scene, 'displayAxis').name('Display Axis');
         this.gui.add(this.scene, 'displayPanorama').name('Display Panorama');
         this.gui.add(this.scene, 'displayFlowers').name('Display Flowers');
         this.gui.add(this.scene, 'displayBee').name('Display Bee');
