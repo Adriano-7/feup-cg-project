@@ -36,7 +36,6 @@ export class MyHive extends CGFobject {
     display() {
         // Box
         this.scene.pushMatrix();
-        this.scene.translate(-50, -100, -50);
         this.scene.scale(5, 5, 5);
         this.hiveMaterial.apply();
 

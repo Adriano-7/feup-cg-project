@@ -1,16 +1,13 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./primitives/MyPlane.js";
 import { MyPanorama } from "./objects/MyPanorama.js";
-import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyGarden } from './objects/MyGarden/MyGarden.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
 import { MyPollen } from './objects/MyFlower/MyPollen.js';
 import { MyGrass } from './objects/MyGrass/MyGrass.js';
-import { MyRock } from './primitives/MyRocks2.js';
-import { MyRockSet2 } from './primitives/MyRockSet2.js';
-
-
+import { MyRock } from './objects/MyRockSet/MyRocks.js';
+import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 
 /**
  * MyScene
@@ -48,7 +45,9 @@ export class MyScene extends CGFscene {
         this.hive = new MyHive(this);
         this.grass = new MyGrass(this, 10, 10);
         this.rock2 = new MyRock(this, 6, 6, 0.2);
-        this.rockset2 = new MyRockSet2(this, 4);
+        this.rockset2 = new MyRockSet(this, 7);
+        this.rockset2MaxHeight = this.rockset2.getMaxHeight();
+
 
         this.pollens = [];
         for (let i = 0; i < this.garden.flowers.length; i++) {
@@ -81,7 +80,7 @@ export class MyScene extends CGFscene {
         this.displayPanorama = true;
         this.displayBee = true;
         this.displayFlowers = true;
-        this.displayRockSet = false;
+        this.displayRockSet = true;
         this.displayHive = true;
         this.displayTerrain = true;
         this.displayGrass = true;
@@ -162,12 +161,12 @@ export class MyScene extends CGFscene {
                 break;
 
             case "POLLEN_DELIVERY":
-                const distance = ((this.beePosition[0] + 82) ** 2 + (this.beePosition[1] + 86) ** 2 + (this.beePosition[2] - 96) ** 2) ** 0.5;
+                const distance = ((this.beePosition[0] + '') ** 2 + (this.beePosition[1] - (this.rockset2MaxHeight - 100)) ** 2 + (this.beePosition[2] - 15) ** 2) ** 0.5;
                 if (distance < 1) {
                     this.bee.state = "POLLEN_ASCENT";
                     this.bee.activePollen = false;
                 } else {
-                    this.bee.moveToTarget(-82, -86, 96, 1);
+                    this.bee.moveToTarget(0, this.rockset2MaxHeight - 100, 15, 1);
                     this.bee.update(deltaTime);
                 }
                 break;
@@ -216,35 +215,30 @@ export class MyScene extends CGFscene {
         if (this.displayBee) {
             this.bee.display();
         }
+
         if (this.displayRockSet) {
             this.pushMatrix();
-            this.scale(2, 2, 2);
-            this.translate(0, -100 / 2 - 2, 0);
-            this.rockset.display();
+            this.translate(0, -100, 0);
+            this.scale(10, 2, 10);
+            this.rockset2.display();
             this.popMatrix();
-
         }
+
         if (this.displayHive) {
             this.pushMatrix();
-            this.scale(2, 2, 2);
-            this.rotate(Math.PI / 4 + Math.PI / 2, 0, 1, 0);
-            this.translate(0, 100 / 2, 0);
-            this.translate(45, 0, -30);
+            this.translate(0, -100 + this.rockset2MaxHeight * 2, 0);
             this.hive.display();
             this.popMatrix();
         }
 
-
         if (this.displayGrass) {
             this.pushMatrix();
             this.scale(0.4, 10, 0.4);
-            this.translate(0, -10, 0)
+            this.translate(40, -10, 40)
             this.grass.display();
             this.popMatrix();
         }
 
-        this.rock2.display();
-        this.rockset2.display();
         this.checkKeys();
     }
 
@@ -252,8 +246,9 @@ export class MyScene extends CGFscene {
         let minDistance = Infinity;
         let nearestPollen = null;
         for (const pollen of this.pollens) {
+            const distanceToOriginXZ = Math.sqrt(pollen.x ** 2 + pollen.z ** 2);
             const distance = this.bee.calculateDistanceXZ(pollen.x, pollen.z);
-            if (distance < minDistance) {
+            if (distance < minDistance && distanceToOriginXZ > 10) {
                 minDistance = distance;
                 nearestPollen = pollen;
             }

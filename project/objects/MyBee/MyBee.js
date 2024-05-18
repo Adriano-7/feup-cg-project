@@ -307,7 +307,6 @@ export class MyBee extends CGFobject {
         this.orientation = 0;
         this.velocity = [0, 0, 0];
         this.state = BeeStates.REGULAR_MOVEMENT;
-        this.pollen = null;
         this.activePollen = false;
     }
 
