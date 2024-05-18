@@ -17,13 +17,13 @@ export class MyGarden extends CGFobject {
     createGarden() {
         for (let i = 0; i < this.numRows; i++) {
             for (let j = 0; j < this.numCols; j++) {
-                const flower = this.createRandomFlower();
+                const flower = this.createRandomFlower(i, j);
                 this.flowers.push(flower);
             }
         }
     }
 
-    createRandomFlower() {
+    createRandomFlower(i, j) {
         const stemRadius = this.getRandomNumber(2, 2);
         const stemHeight = stemRadius + this.getRandomNumber(25, 8);
         const receptacleRadius = 2 * stemRadius + this.getRandomNumber(7);
@@ -38,8 +38,11 @@ export class MyGarden extends CGFobject {
             stemRadius,
             stemHeight
         );
-        flower.externalRadius = externalRadius;
-        flower.stemHeight = stemHeight;
+
+        flower.x = i * (3 * externalRadius + this.margin);
+        flower.y = 2 * stemHeight - 100
+        flower.z = j * (3 * externalRadius + this.margin);
+
         return flower;
     }
 
@@ -48,19 +51,11 @@ export class MyGarden extends CGFobject {
     }
 
     display() {
-        for (let i = 0; i < this.numRows; i++) {
-            for (let j = 0; j < this.numCols; j++) {
-                const flowerIndex = i * this.numCols + j;
-                const flower = this.flowers[flowerIndex];
-                const radius = flower.externalRadius;
-                const height = flower.stemHeight;
-                this.scene.pushMatrix();
-                const x = i * (3 * radius + this.margin);
-                const z = j * (3 * radius + this.margin);
-                this.scene.translate(x, 2 * height - 100, z);
-                flower.display();
-                this.scene.popMatrix();
-            }
+        for (const flower of this.flowers) {
+            this.scene.pushMatrix();
+            this.scene.translate(flower.x, flower.y, flower.z);
+            flower.display();
+            this.scene.popMatrix();
         }
     }
 }

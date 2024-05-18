@@ -9,8 +9,18 @@ import { MyStem } from './MyStem.js';
  * @param scene - Reference to MyScene object
  */
 export class MyFlower extends CGFobject {
-    constructor(scene, rExt, nPetals, rReceptable, rStem, hStem) {
+    constructor(scene, externalRadius, numberOfPetals, receptacleRadius, stemRadius, stemHeight) {
         super(scene);
+
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+
+        this.externalRadius = externalRadius;
+        this.numberOfPetals = numberOfPetals;
+        this.receptacleRadius = receptacleRadius;
+        this.stemRadius = stemRadius;
+        this.stemHeight = stemHeight;
 
         this.texturePetals = new CGFtexture(scene, "images/flowerPetals1.jpg");
         this.petalMaterial = new CGFappearance(scene);
@@ -37,13 +47,13 @@ export class MyFlower extends CGFobject {
         this.leafMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
 
-        let lPetals = rExt - rReceptable
+        let lPetals = externalRadius - receptacleRadius
         let nLayers = 2;
 
         // Create petal and receptacle objects
-        this.petals = new MyPetals(scene, rExt, nPetals, lPetals, nLayers);
-        this.receptacle = new MyReceptable(scene, rReceptable);
-        this.stem = new MyStem(scene, rStem, hStem);
+        this.petals = new MyPetals(scene, externalRadius, numberOfPetals, lPetals, nLayers);
+        this.receptacle = new MyReceptable(scene, receptacleRadius);
+        this.stem = new MyStem(scene, stemRadius, stemHeight);
     }
 
     display() {
@@ -69,5 +79,9 @@ export class MyFlower extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.popMatrix();
+    }
+
+    getReceptaclePosition() {
+        return [this.x, this.y + this.stemHeight + this.receptacleRadius / 2, this.z];
     }
 }

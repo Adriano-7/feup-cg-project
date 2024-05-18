@@ -5,7 +5,9 @@ import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyGarden } from './objects/MyGarden/MyGarden.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
+import { MyPollen } from './objects/MyFlower/MyPollen.js';
 import { MyGrass } from './objects/MyGrass/MyGrass.js';
+
 /**
  * MyScene
  * @constructor
@@ -34,11 +36,28 @@ export class MyScene extends CGFscene {
         this.plane = new MyPlane(this, 30);
         this.panorama = new MyPanorama(this);
 
+        this.nearestPollen = null;
+
         this.bee = new MyBee(this);
         this.garden = new MyGarden(this, 6, 6);
         this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
         this.grass = new MyGrass(this, 15, 15);
+
+        this.pollens = [];
+        for (let i = 0; i < this.garden.flowers.length; i++) {
+            const flower = this.garden.flowers[i];
+
+            const pollen = new MyPollen(this);
+
+            const randomAngle = Math.random() * 2 * Math.PI;
+            pollen.setRotation(randomAngle);
+
+            const receptaclePosition = flower.getReceptaclePosition();
+            pollen.setPosition(receptaclePosition[0] * 0.2 - 600 * 0.2, (receptaclePosition[1] - flower.stemHeight) * 0.2 - 400 * 0.2, receptaclePosition[2] * 0.2 - 600 * 0.2);
+
+            this.pollens.push(pollen);
+        }
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -56,7 +75,7 @@ export class MyScene extends CGFscene {
         this.displayPanorama = true;
         this.displayBee = true;
         this.displayFlowers = true;
-        this.displayRockSet = true;
+        this.displayRockSet = false;
         this.displayHive = true;
         this.displayTerrain = true;
         this.displayGrass = true;
@@ -92,26 +111,65 @@ export class MyScene extends CGFscene {
     }
 
     update(t) {
-        // Calculate time delta
         const deltaTime = t - this.previousTime;
         this.previousTime = t;
         this.beePosition = this.bee.getPosition();
 
-        // Update oscillation animation
-        const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
-        this.oscillationPhase += oscillationDelta;
-        const oscillationOffset = Math.sin(this.oscillationPhase) * this.oscillationAmplitude;
+        switch (this.bee.state) {
+            case "REGULAR_MOVEMENT":
+                // Update oscillation animation
+                const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+                this.oscillationPhase += oscillationDelta;
+                const oscillationOffset = Math.sin(this.oscillationPhase) * this.oscillationAmplitude;
 
-        // Update bee position
-        this.beePosition[1] = 3 + oscillationOffset; // Adjust vertical position based on oscillation
+                // Update bee position
+                this.beePosition[1] = 3 + oscillationOffset; // Adjust vertical position based on oscillation
 
-        // Update wing rotation angle
-        this.wingAngle += this.wingSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+                // Update wing rotation angle
+                this.wingAngle += this.wingSpeed * deltaTime / 1000; // Convert milliseconds to seconds
 
-        // Update bee display position
-        this.bee.updatePosition(this.beePosition);
-        this.bee.updateWings(this.wingAngle);
-        this.bee.update(deltaTime);
+                // Update bee display position
+                this.bee.updatePosition(this.beePosition);
+                this.bee.updateWings(this.wingAngle);
+                this.bee.update(deltaTime);
+                break;
+            case "POLLEN_DESCENT":
+                if (this.nearestPollen != null) {
+                    const yDistance = this.beePosition[1] - this.nearestPollen.y;
+                    if (yDistance < 1) {
+                        const index = this.pollens.indexOf(this.nearestPollen);
+                        if (index > -1) {
+                            this.pollens.splice(index, 1);
+                        }
+                        this.bee.activePollen = true;
+                    } else {
+                        this.bee.moveToTarget(this.nearestPollen.x, this.nearestPollen.y, this.nearestPollen.z, 1);
+                    }
+                }
+                break;
+            case "POLLEN_ASCENT":
+                if (this.beePosition[1] < 0) {
+                    this.bee.ascend();
+                } else {
+                    this.bee.state = "REGULAR_MOVEMENT";
+                }
+                break;
+
+            case "POLLEN_DELIVERY":
+                const distance = ((this.beePosition[0] + 82) ** 2 + (this.beePosition[1] + 86) ** 2 + (this.beePosition[2] - 96) ** 2)** 0.5;
+                if(distance < 1){
+                    this.bee.state = "POLLEN_ASCENT";
+                    this.bee.activePollen = false;
+                }
+                else{
+                    this.bee.moveToTarget(-82,  -86, 96, 1);
+                    this.bee.update(deltaTime);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
 
@@ -130,13 +188,11 @@ export class MyScene extends CGFscene {
         // Draw axis
         if (this.displayAxis) this.axis.display();
 
-        let value1 = 100;
-
         if (this.displayPanorama) {
             this.panorama.display();
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, -value1, 0);
+            this.translate(0, -100, 0);
             this.scale(400, 400, 400);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();
@@ -144,27 +200,31 @@ export class MyScene extends CGFscene {
         }
         if (this.displayFlowers) {
             this.pushMatrix();
+            for (const pollen of this.pollens) {
+                pollen.display();
+            }
             this.scale(0.2, 0.2, 0.2);
-            this.translate(-600,-400,-600);
+            this.translate(-600, -400, -600);
             this.garden.display();
             this.popMatrix();
-
         }
-        if (this.displayBee) { this.bee.display(); }
+        if (this.displayBee) {
+            this.bee.display();
+        }
         if (this.displayRockSet) {
             this.pushMatrix();
             this.scale(2, 2, 2);
-            this.translate(0,-value1/2-2,0);
+            this.translate(0, -100 / 2 - 2, 0);
             this.rockset.display();
             this.popMatrix();
 
         }
         if (this.displayHive) {
             this.pushMatrix();
-            this.scale(2,2,2);
-            this.rotate(Math.PI/4+Math.PI/2, 0, 1, 0);
-            this.translate(0,value1/2,0);
-            this.translate(45,0,-30);
+            this.scale(2, 2, 2);
+            this.rotate(Math.PI / 4 + Math.PI / 2, 0, 1, 0);
+            this.translate(0, 100 / 2, 0);
+            this.translate(45, 0, -30);
             this.hive.display();
             this.popMatrix();
         }
@@ -179,6 +239,19 @@ export class MyScene extends CGFscene {
         }
 
         this.checkKeys();
+    }
+
+    findNearestFlowerPollen() {
+        let minDistance = Infinity;
+        let nearestPollen = null;
+        for (const pollen of this.pollens) {
+            const distance = this.bee.calculateDistanceXZ(pollen.x, pollen.z);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestPollen = pollen;
+            }
+        }
+        return nearestPollen;
     }
 
     checkKeys() {
@@ -210,7 +283,30 @@ export class MyScene extends CGFscene {
         }
 
         if (this.gui.isKeyPressed("KeyR")) {
+            keysPressed = true;
             this.bee.resetPosition();
+        }
+
+        if (this.gui.isKeyPressed("KeyF")) {
+            if(this.bee.state === "REGULAR_MOVEMENT"){
+                keysPressed = true;
+                this.nearestPollen = this.findNearestFlowerPollen();
+                this.bee.state = "POLLEN_DESCENT";
+            }
+        }
+
+        if (this.gui.isKeyPressed("KeyP")) {
+            if(this.bee.state === "POLLEN_DESCENT"){
+                keysPressed = true;
+                this.bee.state = "POLLEN_ASCENT";
+            }
+        }
+
+        if (this.gui.isKeyPressed("KeyO")) {
+            if(this.bee.activePollen){
+                keysPressed = true;
+                this.bee.state = "POLLEN_DELIVERY";
+            }
         }
 
         if (keysPressed) {
