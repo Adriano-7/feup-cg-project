@@ -36,6 +36,8 @@ export class MyScene extends CGFscene {
         this.plane = new MyPlane(this, 30);
         this.panorama = new MyPanorama(this);
 
+        this.nearestPollen = null;
+
         this.bee = new MyBee(this);
         this.garden = new MyGarden(this, 6, 6);
         this.rockset = new MyRockSet(this, 6, 6);
@@ -52,7 +54,7 @@ export class MyScene extends CGFscene {
             pollen.setRotation(randomAngle);
 
             const receptaclePosition = flower.getReceptaclePosition();
-            pollen.setPosition(receptaclePosition[0], receptaclePosition[1] - flower.stemHeight, receptaclePosition[2]);
+            pollen.setPosition(receptaclePosition[0] * 0.2 - 600 * 0.2, (receptaclePosition[1] - flower.stemHeight) * 0.2 - 400 * 0.2, receptaclePosition[2] * 0.2 - 600 * 0.2);
 
             this.pollens.push(pollen);
         }
@@ -110,26 +112,56 @@ export class MyScene extends CGFscene {
     }
 
     update(t) {
-        // Calculate time delta
         const deltaTime = t - this.previousTime;
         this.previousTime = t;
         this.beePosition = this.bee.getPosition();
 
-        // Update oscillation animation
-        const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
-        this.oscillationPhase += oscillationDelta;
-        const oscillationOffset = Math.sin(this.oscillationPhase) * this.oscillationAmplitude;
+        switch (this.bee.state) {
+            case "REGULAR_MOVEMENT":
+                // Update oscillation animation
+                const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+                this.oscillationPhase += oscillationDelta;
+                const oscillationOffset = Math.sin(this.oscillationPhase) * this.oscillationAmplitude;
 
-        // Update bee position
-        this.beePosition[1] = 3 + oscillationOffset; // Adjust vertical position based on oscillation
+                // Update bee position
+                this.beePosition[1] = 3 + oscillationOffset; // Adjust vertical position based on oscillation
 
-        // Update wing rotation angle
-        this.wingAngle += this.wingSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+                // Update wing rotation angle
+                this.wingAngle += this.wingSpeed * deltaTime / 1000; // Convert milliseconds to seconds
 
-        // Update bee display position
-        this.bee.updatePosition(this.beePosition);
-        this.bee.updateWings(this.wingAngle);
-        this.bee.update(deltaTime);
+                // Update bee display position
+                this.bee.updatePosition(this.beePosition);
+                this.bee.updateWings(this.wingAngle);
+                this.bee.update(deltaTime);
+                break;
+            case "POLLEN_DESCENT":
+                if (this.nearestPollen != null) {
+                    const yDistance = this.beePosition[1] - this.nearestPollen.y;
+
+                    if (yDistance < 1) {
+                        //Remove the pollen from the garden and put it in the bee
+                        const index = this.pollens.indexOf(this.nearestPollen);
+                        if (index > -1) {
+                            this.pollens.splice(index, 1);
+                        }
+                        this.bee.activePollen = true;
+                    } else {
+                        this.bee.descend();
+                        this.bee.update(deltaTime);
+                    }
+                }
+                break;
+            case "POLLEN_ASCENT":
+                //Should comeback to the original height(0) transporting the pollen grain if it was near enough of the flower
+                break;
+
+            case "POLLEN_DELIVERY":
+                //Should go to the enterance of the hive and deliver the pollen grain
+                break;
+
+            default:
+                break;
+        }
     }
 
 
@@ -162,11 +194,11 @@ export class MyScene extends CGFscene {
         }
         if (this.displayFlowers) {
             this.pushMatrix();
-            this.scale(0.2, 0.2, 0.2);
-            this.translate(-600, -400, -600);
             for (const pollen of this.pollens) {
                 pollen.display();
             }
+            this.scale(0.2, 0.2, 0.2);
+            this.translate(-600, -400, -600);
             this.garden.display();
             this.popMatrix();
         }
@@ -195,6 +227,19 @@ export class MyScene extends CGFscene {
         if (this.displayGrass) this.grass.display();
 
         this.checkKeys();
+    }
+
+    findNearestFlowerPollen() {
+        let minDistance = Infinity;
+        let nearestPollen = null;
+        for (const pollen of this.pollens) {
+            const distance = this.bee.calculateDistanceXZ(pollen.x, pollen.z);
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestPollen = pollen;
+            }
+        }
+        return nearestPollen;
     }
 
     checkKeys() {
@@ -227,6 +272,21 @@ export class MyScene extends CGFscene {
 
         if (this.gui.isKeyPressed("KeyR")) {
             this.bee.resetPosition();
+        }
+
+        if (this.gui.isKeyPressed("KeyF")) {
+            this.nearestPollen = this.findNearestFlowerPollen();
+            if (this.bee.calculateDistanceXZ(this.nearestPollen.x, this.nearestPollen.z) < 15) {
+                this.bee.state = "POLLEN_DESCENT";
+            }
+        }
+
+        if (this.gui.isKeyPressed("KeyG")) {
+            this.bee.state = "POLLEN_ASCENT";
+        }
+
+        if (this.gui.isKeyPressed("KeyO")) {
+            this.bee.state = "POLLEN_DELIVERY";
         }
 
         if (keysPressed) {

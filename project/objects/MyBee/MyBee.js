@@ -2,6 +2,14 @@ import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
 import { MyEllipsoid } from "../../primitives/MyEllipsoid.js";
 import { MySphere } from "../../primitives/MySphere.js";
 import { MyCylinder } from "../../primitives/MyCylinder.js";
+import { MyPollen } from "../MyFlower/MyPollen.js";
+
+const BeeStates = {
+    REGULAR_MOVEMENT: 'REGULAR_MOVEMENT',
+    POLLEN_DESCENT: 'POLLEN_DESCENT',
+    POLLEN_ASCENT: 'POLLEN_ASCENT',
+    POLLEN_DELIVERY: 'POLLEN_DELIVERY'
+};
 
 /**
  * MyBee
@@ -11,6 +19,10 @@ import { MyCylinder } from "../../primitives/MyCylinder.js";
 export class MyBee extends CGFobject {
     constructor(scene) {
         super(scene);
+        this.state = BeeStates.REGULAR_MOVEMENT;
+        this.pollen = new MyPollen(scene);
+        this.activePollen = false;
+
         this.head = new MySphere(scene, 16, 16);
         this.antenna = new MyCylinder(scene, 16, 16);
         this.leg = new MyCylinder(scene, 16, 16);
@@ -213,6 +225,16 @@ export class MyBee extends CGFobject {
         this.eye.display();
         this.scene.popMatrix();
 
+        // Display the pollen
+        if (this.activePollen) {
+            this.scene.pushMatrix();
+            this.scene.scale(0.5, 0.5, 0.5);
+            this.scene.translate(0, -3.5, 2.5);
+
+            this.pollen.display();
+
+            this.scene.popMatrix();
+        }
 
         this.scene.pushMatrix();
         this.scene.gl.blendFunc(this.scene.gl.SRC_ALPHA, this.scene.gl.ONE_MINUS_SRC_ALPHA);
@@ -268,6 +290,10 @@ export class MyBee extends CGFobject {
         this.velocity[2] += val * Math.cos(this.orientation);
     }
 
+    descend() {
+        this.position[1] -= 0.5;
+    }
+
     updatePosition(position) {
         this.position = position;
     }
@@ -280,9 +306,15 @@ export class MyBee extends CGFobject {
         this.position = [0, 3, 0];
         this.orientation = 0;
         this.velocity = [0, 0, 0];
+        this.state = BeeStates.REGULAR_MOVEMENT;
+        this.pollen = null;
+        this.activePollen = false;
     }
 
     getPosition() {
         return this.position;
+    }
+    calculateDistanceXZ(x, z) {
+        return Math.sqrt((this.position[0] - x) ** 2 + (this.position[2] - z) ** 2);
     }
 }

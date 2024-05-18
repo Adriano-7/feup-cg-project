@@ -1,5 +1,5 @@
 import { CGFobject, CGFappearance, CGFtexture } from '../../../lib/CGF.js';
-import {MyEllipsoid} from "../../primitives/MyEllipsoid.js";
+import { MyEllipsoid } from "../../primitives/MyEllipsoid.js";
 
 export class MyPollen extends CGFobject {
     constructor(scene) {
@@ -9,8 +9,6 @@ export class MyPollen extends CGFobject {
         this.y = 0;
         this.z = 0;
         this.rotation = 0;
-
-        this.scale = [1, 1, 1]
 
         // Create a suitable material and texture for the pollen
         this.pollenTexture = new CGFtexture(scene, 'images/pollen.jpg');
@@ -40,9 +38,5 @@ export class MyPollen extends CGFobject {
 
     setRotation(angle) {
         this.rotation = angle;
-    }
-
-    setScale(s) {
-        this.scale = s;
     }
 }
