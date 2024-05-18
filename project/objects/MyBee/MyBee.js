@@ -290,9 +290,6 @@ export class MyBee extends CGFobject {
         this.velocity[2] += val * Math.cos(this.orientation);
     }
 
-    descend() {
-        this.position[1] -= 0.5;
-    }
     ascend() {
         this.position[1] += 0.5;
     }
@@ -319,5 +316,21 @@ export class MyBee extends CGFobject {
     }
     calculateDistanceXZ(x, z) {
         return Math.sqrt((this.position[0] - x) ** 2 + (this.position[2] - z) ** 2);
+    }
+
+    calculateDirectionVector(targetX, targetY, targetZ) {
+        const dx = targetX - this.position[0];
+        const dy = targetY - this.position[1];
+        const dz = targetZ - this.position[2];
+        const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        return [dx / distance, dy / distance, dz / distance];
+    }
+
+    moveToTarget(targetX, targetY, targetZ, speed) {
+        const directionVector = this.calculateDirectionVector(targetX, targetY, targetZ);
+        this.position[0] += directionVector[0] * speed;
+        this.position[1] += directionVector[1] * speed;
+        this.position[2] += directionVector[2] * speed;
     }
 }

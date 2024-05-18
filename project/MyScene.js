@@ -137,17 +137,14 @@ export class MyScene extends CGFscene {
             case "POLLEN_DESCENT":
                 if (this.nearestPollen != null) {
                     const yDistance = this.beePosition[1] - this.nearestPollen.y;
-
                     if (yDistance < 1) {
-                        //Remove the pollen from the garden and put it in the bee
                         const index = this.pollens.indexOf(this.nearestPollen);
                         if (index > -1) {
                             this.pollens.splice(index, 1);
                         }
                         this.bee.activePollen = true;
                     } else {
-                        this.bee.descend();
-                        this.bee.update(deltaTime);
+                        this.bee.moveToTarget(this.nearestPollen.x, this.nearestPollen.y, this.nearestPollen.z, 1);
                     }
                 }
                 break;
@@ -160,7 +157,15 @@ export class MyScene extends CGFscene {
                 break;
 
             case "POLLEN_DELIVERY":
-                //Should go to the enterance of the hive and deliver the pollen grain
+                const distance = ((this.beePosition[0] + 82) ** 2 + (this.beePosition[1] + 86) ** 2 + (this.beePosition[2] - 96) ** 2)** 0.5;
+                if(distance < 1){
+                    this.bee.state = "POLLEN_ASCENT";
+                    this.bee.activePollen = false;
+                }
+                else{
+                    this.bee.moveToTarget(-82,  -86, 96, 1);
+                    this.bee.update(deltaTime);
+                }
                 break;
 
             default:
@@ -184,13 +189,11 @@ export class MyScene extends CGFscene {
         // Draw axis
         if (this.displayAxis) this.axis.display();
 
-        let value1 = 100;
-
         if (this.displayPanorama) {
             this.panorama.display();
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, -value1, 0);
+            this.translate(0, -100, 0);
             this.scale(400, 400, 400);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();
@@ -212,7 +215,7 @@ export class MyScene extends CGFscene {
         if (this.displayRockSet) {
             this.pushMatrix();
             this.scale(2, 2, 2);
-            this.translate(0, -value1 / 2 - 2, 0);
+            this.translate(0, -100 / 2 - 2, 0);
             this.rockset.display();
             this.popMatrix();
 
@@ -221,7 +224,7 @@ export class MyScene extends CGFscene {
             this.pushMatrix();
             this.scale(2, 2, 2);
             this.rotate(Math.PI / 4 + Math.PI / 2, 0, 1, 0);
-            this.translate(0, value1 / 2, 0);
+            this.translate(0, 100 / 2, 0);
             this.translate(45, 0, -30);
             this.hive.display();
             this.popMatrix();
@@ -280,21 +283,25 @@ export class MyScene extends CGFscene {
         }
 
         if (this.gui.isKeyPressed("KeyF")) {
-            keysPressed = true;
-            this.nearestPollen = this.findNearestFlowerPollen();
-            if (this.bee.calculateDistanceXZ(this.nearestPollen.x, this.nearestPollen.z) < 15) {
+            if(this.bee.state === "REGULAR_MOVEMENT"){
+                keysPressed = true;
+                this.nearestPollen = this.findNearestFlowerPollen();
                 this.bee.state = "POLLEN_DESCENT";
             }
         }
 
         if (this.gui.isKeyPressed("KeyP")) {
-            keysPressed = true;
-            this.bee.state = "POLLEN_ASCENT";
+            if(this.bee.state === "POLLEN_DESCENT"){
+                keysPressed = true;
+                this.bee.state = "POLLEN_ASCENT";
+            }
         }
 
         if (this.gui.isKeyPressed("KeyO")) {
-            keysPressed = true;
-            this.bee.state = "POLLEN_DELIVERY";
+            if(this.bee.activePollen){
+                keysPressed = true;
+                this.bee.state = "POLLEN_DELIVERY";
+            }
         }
 
         if (keysPressed) {
