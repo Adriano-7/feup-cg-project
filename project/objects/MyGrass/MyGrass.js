@@ -1,42 +1,48 @@
-import { CGFobject } from '../../../lib/CGF.js';
+import { CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { MyPyramid } from '../../primitives/MyPyramid.js';
 
-/**
- * MyTriangle
- * @constructor
- * @param scene - Reference to MyScene object
- */
 export class MyGrass extends CGFobject {
-    constructor(scene, vertices) {
+    constructor(scene, numRows, numCols) {
         super(scene);
-        this.vertices = vertices;
-        this.initBuffers();
+        this.numRows = numRows;
+        this.numCols = numCols;
+        this.grass = [];
+        this.margin = 50;
+        this.createGrass();
+
+        this.leafTexture = new CGFtexture(scene, 'images/leaf.jpg');
+
     }
 
-    initBuffers() {
-        this.indices = [
-            0, 1, 2,
-            2, 1, 0
-        ];
+    createGrass() {
+        for (let i = 0; i < this.numRows; i++) {
+            for (let j = 0; j < this.numCols; j++) {
+                const leaf = new MyPyramid(this.scene, 4, 1);
+                leaf.randomOffsetX = this.getRandomOffset();
+                leaf.randomOffsetZ = this.getRandomOffset();
+                this.grass.push(leaf);
+            }
+        }
+    }
 
-        // Define normals for both sides of the triangle
-        this.normals = [
-            0, 0, 1, // Front face normal (upward)
-            0, 0, 1,
-            0, 0, 1,
+    getRandomOffset() {
+        return (Math.random() - 0.5) * this.margin;
+    }
 
-            0, 0, -1, // Back face normal (downward)
-            0, 0, -1,
-            0, 0, -1,
-        ];
+    display() {
+        const leafSize = 1; // Assuming a size of 1 for width and depth of each pyramid
+        for (let i = 0; i < this.grass.length; i++) {
+            const leaf = this.grass[i];
+            const row = Math.floor(i / this.numCols);
+            const col = i % this.numCols;
+            const x = col * (leafSize + this.margin) + leaf.randomOffsetX;
+            const z = row * (leafSize + this.margin) + leaf.randomOffsetZ;
 
-        // Define texture coordinates
-        this.texCoords = [
-            0, 1,
-            1, 1,
-            0.5, 0,
-        ];
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
+            this.leafTexture.bind();
+            this.scene.pushMatrix();
+            this.scene.translate(x, 0, z);
+            leaf.display();
+            this.scene.popMatrix();
+        }
     }
 }

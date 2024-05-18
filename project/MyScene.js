@@ -38,7 +38,7 @@ export class MyScene extends CGFscene {
         this.garden = new MyGarden(this, 6, 6);
         this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
-        this.grass = new MyGrass(this);
+        this.grass = new MyGrass(this, 15, 15);
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -58,9 +58,8 @@ export class MyScene extends CGFscene {
         this.displayFlowers = true;
         this.displayRockSet = true;
         this.displayHive = true;
-        this.displayGrass = false;
         this.displayTerrain = true;
-        this.displayGrass = false;
+        this.displayGrass = true;
 
         // Initialize bee state and variables
         this.oscillationSpeed = 2 * Math.PI; // Speed of oscillation (radians per second)
@@ -171,7 +170,13 @@ export class MyScene extends CGFscene {
         }
         
         
-        if (this.displayGrass) this.grass.display();
+        if (this.displayGrass) {
+            this.pushMatrix();
+            this.scale(0.4, 10, 0.4);
+            this.translate(-350,-10,-350)
+            this.grass.display();
+            this.popMatrix();
+        }
 
         this.checkKeys();
     }
