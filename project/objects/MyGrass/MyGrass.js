@@ -1,4 +1,4 @@
-import { CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { CGFobject, CGFtexture, CGFappearance } from '../../../lib/CGF.js';
 import { MyPyramid } from '../../primitives/MyPyramid.js';
 
 export class MyGrass extends CGFobject {
@@ -7,11 +7,14 @@ export class MyGrass extends CGFobject {
         this.numRows = numRows;
         this.numCols = numCols;
         this.grass = [];
-        this.margin = 50;
+        this.margin = 5;
         this.createGrass();
 
-        this.leafTexture = new CGFtexture(scene, 'images/leaf.jpg');
-
+        this.textureLeaf = new CGFtexture(scene, "images/leaf.jpg");
+        this.leafMaterial = new CGFappearance(scene);
+        this.leafMaterial.setEmission(1, 1, 1, 1);
+        this.leafMaterial.setTexture(this.textureLeaf);
+        this.leafMaterial.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     createGrass() {
@@ -30,6 +33,10 @@ export class MyGrass extends CGFobject {
     }
 
     display() {
+        this.scene.pushMatrix();
+
+        this.leafMaterial.apply();
+
         const leafSize = 1; // Assuming a size of 1 for width and depth of each pyramid
         for (let i = 0; i < this.grass.length; i++) {
             const leaf = this.grass[i];
@@ -38,11 +45,12 @@ export class MyGrass extends CGFobject {
             const x = col * (leafSize + this.margin) + leaf.randomOffsetX;
             const z = row * (leafSize + this.margin) + leaf.randomOffsetZ;
 
-            this.leafTexture.bind();
             this.scene.pushMatrix();
             this.scene.translate(x, 0, z);
             leaf.display();
             this.scene.popMatrix();
         }
+        this.scene.popMatrix();
     }
+
 }

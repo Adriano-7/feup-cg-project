@@ -7,6 +7,10 @@ import { MyGarden } from './objects/MyGarden/MyGarden.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
 import { MyPollen } from './objects/MyFlower/MyPollen.js';
 import { MyGrass } from './objects/MyGrass/MyGrass.js';
+import { MyRock } from './primitives/MyRocks2.js';
+import { MyRockSet2 } from './primitives/MyRockSet2.js';
+
+
 
 /**
  * MyScene
@@ -42,7 +46,9 @@ export class MyScene extends CGFscene {
         this.garden = new MyGarden(this, 6, 6);
         this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
-        this.grass = new MyGrass(this, 15, 15);
+        this.grass = new MyGrass(this, 10, 10);
+        this.rock2 = new MyRock(this, 6, 6, 0.2);
+        this.rockset2 = new MyRockSet2(this, 4);
 
         this.pollens = [];
         for (let i = 0; i < this.garden.flowers.length; i++) {
@@ -156,13 +162,12 @@ export class MyScene extends CGFscene {
                 break;
 
             case "POLLEN_DELIVERY":
-                const distance = ((this.beePosition[0] + 82) ** 2 + (this.beePosition[1] + 86) ** 2 + (this.beePosition[2] - 96) ** 2)** 0.5;
-                if(distance < 1){
+                const distance = ((this.beePosition[0] + 82) ** 2 + (this.beePosition[1] + 86) ** 2 + (this.beePosition[2] - 96) ** 2) ** 0.5;
+                if (distance < 1) {
                     this.bee.state = "POLLEN_ASCENT";
                     this.bee.activePollen = false;
-                }
-                else{
-                    this.bee.moveToTarget(-82,  -86, 96, 1);
+                } else {
+                    this.bee.moveToTarget(-82, -86, 96, 1);
                     this.bee.update(deltaTime);
                 }
                 break;
@@ -228,16 +233,18 @@ export class MyScene extends CGFscene {
             this.hive.display();
             this.popMatrix();
         }
-        
-        
+
+
         if (this.displayGrass) {
             this.pushMatrix();
             this.scale(0.4, 10, 0.4);
-            this.translate(-350,-10,-350)
+            this.translate(0, -10, 0)
             this.grass.display();
             this.popMatrix();
         }
 
+        this.rock2.display();
+        this.rockset2.display();
         this.checkKeys();
     }
 
@@ -288,7 +295,7 @@ export class MyScene extends CGFscene {
         }
 
         if (this.gui.isKeyPressed("KeyF")) {
-            if(this.bee.state === "REGULAR_MOVEMENT"){
+            if (this.bee.state === "REGULAR_MOVEMENT") {
                 keysPressed = true;
                 this.nearestPollen = this.findNearestFlowerPollen();
                 this.bee.state = "POLLEN_DESCENT";
@@ -296,14 +303,14 @@ export class MyScene extends CGFscene {
         }
 
         if (this.gui.isKeyPressed("KeyP")) {
-            if(this.bee.state === "POLLEN_DESCENT"){
+            if (this.bee.state === "POLLEN_DESCENT") {
                 keysPressed = true;
                 this.bee.state = "POLLEN_ASCENT";
             }
         }
 
         if (this.gui.isKeyPressed("KeyO")) {
-            if(this.bee.activePollen){
+            if (this.bee.activePollen) {
                 keysPressed = true;
                 this.bee.state = "POLLEN_DELIVERY";
             }
