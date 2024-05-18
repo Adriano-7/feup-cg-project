@@ -12,6 +12,10 @@ export class MyFlower extends CGFobject {
     constructor(scene, rExt, nPetals, rReceptable, rStem, hStem) {
         super(scene);
 
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+
         this.texturePetals = new CGFtexture(scene, "images/flowerPetals1.jpg");
         this.petalMaterial = new CGFappearance(scene);
         this.petalMaterial.setEmission(1, 1, 1, 1);
