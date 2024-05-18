@@ -5,7 +5,7 @@ import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyGarden } from './objects/MyGarden/MyGarden.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
-
+import { MyGrass } from './objects/MyGrass/MyGrass.js';
 /**
  * MyScene
  * @constructor
@@ -38,6 +38,7 @@ export class MyScene extends CGFscene {
         this.garden = new MyGarden(this, 6, 6);
         this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
+        this.grass = new MyGrass(this);
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -59,6 +60,7 @@ export class MyScene extends CGFscene {
         this.displayHive = true;
         this.displayGrass = false;
         this.displayTerrain = true;
+        this.displayGrass = false;
 
         // Initialize bee state and variables
         this.oscillationSpeed = 2 * Math.PI; // Speed of oscillation (radians per second)
@@ -169,7 +171,7 @@ export class MyScene extends CGFscene {
         }
         
         
-        if (this.displayGrass) this.garden.display();
+        if (this.displayGrass) this.grass.display();
 
         this.checkKeys();
     }
