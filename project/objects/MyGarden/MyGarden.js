@@ -38,13 +38,10 @@ export class MyGarden extends CGFobject {
             stemRadius,
             stemHeight
         );
-        flower.externalRadius = externalRadius;
-        flower.stemHeight = stemHeight;
 
         flower.x = i * (3 * externalRadius + this.margin);
         flower.y = 2 * stemHeight - 100
         flower.z = j * (3 * externalRadius + this.margin);
-
 
         return flower;
     }

@@ -5,6 +5,7 @@ import { MyRockSet } from './objects/MyRockSet/MyRockSet.js';
 import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyGarden } from './objects/MyGarden/MyGarden.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
+import { MyPollen } from './objects/MyFlower/MyPollen.js';
 
 /**
  * MyScene
@@ -38,6 +39,21 @@ export class MyScene extends CGFscene {
         this.garden = new MyGarden(this, 2, 2);
         this.rockset = new MyRockSet(this, 2, 2);
         this.hive = new MyHive(this);
+
+        this.pollens = [];
+        for (let i = 0; i < this.garden.flowers.length; i++) {
+            const flower = this.garden.flowers[i];
+
+            const pollen = new MyPollen(this);
+
+            const randomAngle = Math.random() * 2 * Math.PI;
+            pollen.setRotation(randomAngle);
+
+            const receptaclePosition = flower.getReceptaclePosition();
+            pollen.setPosition(receptaclePosition[0], receptaclePosition[1]-flower.stemHeight, receptaclePosition[2]);
+
+            this.pollens.push(pollen);
+        }
 
         //Objects connected to MyInterface
         this.displayAxis = true;
@@ -140,7 +156,12 @@ export class MyScene extends CGFscene {
             this.plane.display();
             this.popMatrix();
         }
-        if (this.displayFlowers) this.garden.display();
+        if (this.displayFlowers) {
+            this.garden.display();
+            for (const pollen of this.pollens) {
+                pollen.display();
+            }
+        }
         if (this.displayBee) { this.bee.display(); }
         if (this.displayRock) this.rock.display();
         if (this.displayRockSet) this.rockset.display();
