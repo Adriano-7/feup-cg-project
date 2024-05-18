@@ -38,7 +38,7 @@ export class MyFlower extends CGFobject {
 
 
         let lPetals = rExt - rReceptable
-        let nLayers = 1;
+        let nLayers = 2;
 
         // Create petal and receptacle objects
         this.petals = new MyPetals(scene, rExt, nPetals, lPetals, nLayers);

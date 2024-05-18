@@ -144,7 +144,7 @@ export class MyScene extends CGFscene {
         if (this.displayFlowers) {
             this.pushMatrix();
             this.scale(0.2, 0.2, 0.2);
-            this.translate(-500,-400,-500);
+            this.translate(-600,-400,-600);
             this.garden.display();
             this.popMatrix();
 
@@ -160,11 +160,15 @@ export class MyScene extends CGFscene {
         }
         if (this.displayHive) {
             this.pushMatrix();
-            this.rotate(-Math.PI / 2, 0, 0);
+            this.scale(2,2,2);
+            this.rotate(Math.PI/4+Math.PI/2, 0, 1, 0);
+            this.translate(0,value1/2,0);
+            this.translate(45,0,-30);
             this.hive.display();
             this.popMatrix();
-
         }
+        
+        
         if (this.displayGrass) this.garden.display();
 
         this.checkKeys();
