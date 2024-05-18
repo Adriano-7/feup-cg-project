@@ -31,9 +31,9 @@ export class MyBee extends CGFobject {
         this.wing = new MyEllipsoid(scene, 16, 16, [0.7, 0.1, 0.4]);
         this.eye = new MyEllipsoid(scene, 16, 16, [1.4, 3, 2.5]);
 
-        this.textureHead = new CGFtexture(scene, "images/bee1.png");
-        this.textureBody = new CGFtexture(scene, "images/bee3.png");
-        this.textureAbdomen = new CGFtexture(scene, "images/bee4.png");
+        this.textureHead = new CGFtexture(scene, "textures/beeHead.png");
+        this.textureBody = new CGFtexture(scene, "textures/beeBody.png");
+        this.textureAbdomen = new CGFtexture(scene, "textures/beeAbdomen.png");
 
         this.headMaterial = new CGFappearance(scene);
         this.headMaterial.setEmission(1, 1, 1, 1);

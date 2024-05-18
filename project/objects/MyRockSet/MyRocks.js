@@ -16,7 +16,7 @@ export class MyRock extends CGFobject {
         this.bumpiness = bumpiness;
         this.initBuffers();
 
-        this.textureRock = new CGFtexture(scene, "images/rock1.jpg");
+        this.textureRock = new CGFtexture(scene, "textures/rock.jpg");
         this.rockMaterial = new CGFappearance(scene);
         this.rockMaterial.setEmission(1, 1, 1, 1);
         this.rockMaterial.setTexture(this.textureRock);

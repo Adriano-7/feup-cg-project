@@ -10,7 +10,7 @@ export class MyGrass extends CGFobject {
         this.margin = 5;
         this.createGrass();
 
-        this.textureLeaf = new CGFtexture(scene, "images/leaf.jpg");
+        this.textureLeaf = new CGFtexture(scene, "textures/leaf.jpg");
         this.leafMaterial = new CGFappearance(scene);
         this.leafMaterial.setEmission(1, 1, 1, 1);
         this.leafMaterial.setTexture(this.textureLeaf);

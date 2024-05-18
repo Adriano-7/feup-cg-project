@@ -18,13 +18,13 @@ export class MyHive extends CGFobject {
         this.bar2 = new MyCube(scene, this.rStem);
         this.bar3 = new MyCube(scene, this.rStem);
 
-        this.textureHive = new CGFtexture(scene, "images/wood.jpeg");
+        this.textureHive = new CGFtexture(scene, "textures/wood.jpeg");
         this.hiveMaterial = new CGFappearance(scene);
         this.hiveMaterial.setEmission(1, 1, 1, 1);
         this.hiveMaterial.setTexture(this.textureHive);
         this.hiveMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-        this.textureInsideBottom = new CGFtexture(scene, "images/hive.jpeg");
+        this.textureInsideBottom = new CGFtexture(scene, "textures/hive.jpeg");
         this.insideBottomMaterial = new CGFappearance(scene);
         this.insideBottomMaterial.setEmission(1, 1, 1, 1);
         this.insideBottomMaterial.setTexture(this.textureInsideBottom);

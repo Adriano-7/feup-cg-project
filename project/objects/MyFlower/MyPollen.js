@@ -11,7 +11,7 @@ export class MyPollen extends CGFobject {
         this.rotation = 0;
 
         // Create a suitable material and texture for the pollen
-        this.pollenTexture = new CGFtexture(scene, 'images/pollen.jpg');
+        this.pollenTexture = new CGFtexture(scene, 'textures/pollen.jpg');
         this.pollenMaterial = new CGFappearance(scene);
         this.pollenMaterial.setEmission(1, 1, 1, 1);
         this.pollenMaterial.setTexture(this.pollenTexture);

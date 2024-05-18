@@ -22,25 +22,25 @@ export class MyFlower extends CGFobject {
         this.stemRadius = stemRadius;
         this.stemHeight = stemHeight;
 
-        this.texturePetals = new CGFtexture(scene, "images/flowerPetals1.jpg");
+        this.texturePetals = new CGFtexture(scene, "textures/flower1Petals.jpg");
         this.petalMaterial = new CGFappearance(scene);
         this.petalMaterial.setEmission(1, 1, 1, 1);
         this.petalMaterial.setTexture(this.texturePetals);
         this.petalMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-        this.textureReceptacle = new CGFtexture(scene, "images/flowerReceptacle1.jpg");
+        this.textureReceptacle = new CGFtexture(scene, "textures/flowerReceptacle1.jpg");
         this.receptacleMaterial = new CGFappearance(scene);
         this.receptacleMaterial.setEmission(1, 1, 1, 1);
         this.receptacleMaterial.setTexture(this.textureReceptacle);
         this.receptacleMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-        this.textureStem = new CGFtexture(scene, "images/flowerStem1.jpg");
+        this.textureStem = new CGFtexture(scene, "textures/flowerStem1.jpg");
         this.stemMaterial = new CGFappearance(scene);
         this.stemMaterial.setEmission(1, 1, 1, 1);
         this.stemMaterial.setTexture(this.textureStem);
         this.stemMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-        this.textureLeaf = new CGFtexture(scene, "images/leaf.jpg");
+        this.textureLeaf = new CGFtexture(scene, "textures/leaf.jpg");
         this.leafMaterial = new CGFappearance(scene);
         this.leafMaterial.setEmission(1, 1, 1, 1);
         this.leafMaterial.setTexture(this.textureLeaf);

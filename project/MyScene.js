@@ -71,7 +71,7 @@ export class MyScene extends CGFscene {
 
         this.enableTextures(true);
 
-        this.terrainTexture = new CGFtexture(this, "images/terrain.png");
+        this.terrainTexture = new CGFtexture(this, "textures/terrain.png");
         this.terrainAppearance = new CGFappearance(this);
         this.terrainAppearance.setTexture(this.terrainTexture);
         this.terrainAppearance.setTextureWrap('REPEAT', 'REPEAT');
