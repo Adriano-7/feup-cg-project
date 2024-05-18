@@ -293,6 +293,9 @@ export class MyBee extends CGFobject {
     descend() {
         this.position[1] -= 0.5;
     }
+    ascend() {
+        this.position[1] += 0.5;
+    }
 
     updatePosition(position) {
         this.position = position;

@@ -152,7 +152,11 @@ export class MyScene extends CGFscene {
                 }
                 break;
             case "POLLEN_ASCENT":
-                //Should comeback to the original height(0) transporting the pollen grain if it was near enough of the flower
+                if (this.beePosition[1] < 0) {
+                    this.bee.ascend();
+                } else {
+                    this.bee.state = "REGULAR_MOVEMENT";
+                }
                 break;
 
             case "POLLEN_DELIVERY":
@@ -271,21 +275,25 @@ export class MyScene extends CGFscene {
         }
 
         if (this.gui.isKeyPressed("KeyR")) {
+            keysPressed = true;
             this.bee.resetPosition();
         }
 
         if (this.gui.isKeyPressed("KeyF")) {
+            keysPressed = true;
             this.nearestPollen = this.findNearestFlowerPollen();
             if (this.bee.calculateDistanceXZ(this.nearestPollen.x, this.nearestPollen.z) < 15) {
                 this.bee.state = "POLLEN_DESCENT";
             }
         }
 
-        if (this.gui.isKeyPressed("KeyG")) {
+        if (this.gui.isKeyPressed("KeyP")) {
+            keysPressed = true;
             this.bee.state = "POLLEN_ASCENT";
         }
 
         if (this.gui.isKeyPressed("KeyO")) {
+            keysPressed = true;
             this.bee.state = "POLLEN_DELIVERY";
         }
 
