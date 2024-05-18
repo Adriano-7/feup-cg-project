@@ -1,5 +1,5 @@
 import { CGFobject, CGFtexture } from '../../../lib/CGF.js';
-import { MyCube } from '../../oldClasses/MyCube.js';
+import { MyCube } from '../../primitives/MyCube.js';
 
 export class MyHive extends CGFobject {
     constructor(scene) {
@@ -18,13 +18,15 @@ export class MyHive extends CGFobject {
         this.bar2 = new MyCube(scene, this.rStem);
         this.bar3 = new MyCube(scene, this.rStem);
 
-        
+
     }
 
     display() {
         // Box
         this.scene.pushMatrix();
-    
+        this.scene.translate(-50, -100, -50);
+        this.scene.scale(5, 5, 5);
+
         // Bottom Box
         this.scene.pushMatrix();
         this.scene.scale(0.9, this.smallH, 1.1);
@@ -52,11 +54,11 @@ export class MyHive extends CGFobject {
         this.scene.translate(0, 10, 0);
         this.box3.display();
         this.scene.popMatrix();
- 
+
         // Top Box
         this.scene.pushMatrix();
-        this.scene.scale(1.1, this.bigH-this.smallH, 1.1);
-        this.scene.translate(0, 18,  0.1);
+        this.scene.scale(1.1, this.bigH - this.smallH, 1.1);
+        this.scene.translate(0, 18, 0.1);
         this.topBox.display();
         this.scene.popMatrix();
 
@@ -64,24 +66,24 @@ export class MyHive extends CGFobject {
         // Bar 1
         this.scene.pushMatrix();
         this.scene.scale(this.smallH, this.margin, 1.1);
-        this.scene.translate(-12,3,  0.2);
+        this.scene.translate(-12, 3, 0.2);
         this.bar1.display();
         this.scene.popMatrix();
 
         // Bar 1
         this.scene.pushMatrix();
         this.scene.scale(this.smallH, this.margin, 1.1);
-        this.scene.translate(12,3,  0.2);
+        this.scene.translate(12, 3, 0.2);
         this.bar2.display();
         this.scene.popMatrix();
 
         // Bar 1
         this.scene.pushMatrix();
         this.scene.scale(0.9, this.margin, this.smallH);
-        this.scene.translate(0,3, -14);
+        this.scene.translate(0, 3, -14);
         this.bar3.display();
         this.scene.popMatrix();
         this.scene.popMatrix();
     }
-    
+
 }
