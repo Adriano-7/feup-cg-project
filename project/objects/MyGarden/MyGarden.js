@@ -7,7 +7,7 @@ export class MyGarden extends CGFobject {
         this.numRows = numRows;
         this.numCols = numCols;
         this.flowers = [];
-        this.margin = 5;
+        this.margin = 150;
         this.radius = 0;
         this.smallMargin = 0.2;
 
