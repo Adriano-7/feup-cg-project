@@ -1,4 +1,4 @@
-import { CGFobject, CGFappearance } from '../../../lib/CGF.js'; // Ensure CGFappearance is imported
+import { CGFobject } from '../../../lib/CGF.js'; // Ensure CGFappearance is imported
 import { MyTriangle } from '../../primitives/MyTriangle.js'
 
 export class MyPetal extends CGFobject {

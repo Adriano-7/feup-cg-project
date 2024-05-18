@@ -1,4 +1,4 @@
-import { CGFobject, CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFtexture, CGFshader } from '../../../lib/CGF.js';
+import { CGFobject, CGFtexture, CGFshader } from '../../../lib/CGF.js';
 import { MySphere } from '../../primitives/MySphere.js';
 /**
  * MyRock

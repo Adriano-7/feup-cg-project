@@ -1,4 +1,4 @@
-import { CGFobject, CGFappearance } from '../../../lib/CGF.js';
+import { CGFobject } from '../../../lib/CGF.js';
 import { MyTriangle } from '../../primitives/MyTriangle.js'
 import { MyCylinder } from '../../primitives/MyCylinder.js';
 import { MyEllipsoid } from '../../primitives/MyEllipsoid.js';
