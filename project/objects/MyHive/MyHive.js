@@ -1,4 +1,4 @@
-import { CGFobject, CGFtexture } from '../../../lib/CGF.js';
+import { CGFobject, CGFtexture, CGFappearance } from '../../../lib/CGF.js';
 import { MyCube } from '../../primitives/MyCube.js';
 
 export class MyHive extends CGFobject {
@@ -18,6 +18,18 @@ export class MyHive extends CGFobject {
         this.bar2 = new MyCube(scene, this.rStem);
         this.bar3 = new MyCube(scene, this.rStem);
 
+        this.textureHive = new CGFtexture(scene, "images/wood.jpeg");
+        this.hiveMaterial = new CGFappearance(scene);
+        this.hiveMaterial.setEmission(1, 1, 1, 1);
+        this.hiveMaterial.setTexture(this.textureHive);
+        this.hiveMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+        this.textureInsideBottom = new CGFtexture(scene, "images/hive.jpeg");
+        this.insideBottomMaterial = new CGFappearance(scene);
+        this.insideBottomMaterial.setEmission(1, 1, 1, 1);
+        this.insideBottomMaterial.setTexture(this.textureInsideBottom);
+        this.insideBottomMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
 
     }
 
@@ -26,13 +38,16 @@ export class MyHive extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(-50, -100, -50);
         this.scene.scale(5, 5, 5);
+        this.hiveMaterial.apply();
 
         // Bottom Box
         this.scene.pushMatrix();
         this.scene.scale(0.9, this.smallH, 1.1);
         this.scene.translate(0, 2, 0.2);
+        this.insideBottomMaterial.apply();
         this.bottomBox.display();
         this.scene.popMatrix();
+        this.hiveMaterial.apply();
 
         // Main Box 1
         this.scene.pushMatrix();

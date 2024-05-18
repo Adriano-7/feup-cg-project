@@ -57,7 +57,7 @@ export class MyScene extends CGFscene {
         this.displayFlowers = true;
         this.displayRock = false;
         this.displayRockSet = false;
-        this.displayHive = false;
+        this.displayHive = true;
         this.displayGrass = false;
         this.displayTerrain = true;
 
