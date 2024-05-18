@@ -113,9 +113,9 @@ export class MyScene extends CGFscene {
         this.displayPanorama = false;
         this.displayFlower = false;
         this.displayRock = false;
-        this.displayRockSet = true;
-        this.displayGarden = true;
-        this.displayHive = false;
+        this.displayRockSet = false;
+        this.displayGarden = false;
+        this.displayHive = true;
         this.displayBee = false;
 
     }
@@ -134,7 +134,7 @@ export class MyScene extends CGFscene {
             1.5,
             0.2,
             10000,
-            vec3.fromValues(100, 250, 300),
+            vec3.fromValues(6, 6, 6),
             vec3.fromValues(0, 0, 0)
         );
     }
@@ -194,13 +194,15 @@ export class MyScene extends CGFscene {
             this.pushMatrix();
             this.translate(0,2*6,0);
             this.flower.display();
-
         }
+        if(this.displayGarden) this.garden.display();
+
         if(this.displayRock) this.rock.display();
         if(this.displayRockSet) this.rockset.display();
+
         if(this.displayBee) this.bee.display();
+
         if(this.displayHive) this.hive.display();
-        if(this.displayGarden) this.garden.display();
 
         // ---- END Primitive drawing section
 
