@@ -6,6 +6,7 @@ import { MyBee } from './objects/MyBee/MyBee.js';
 import { MyGarden } from './objects/MyGarden/MyGarden.js';
 import { MyHive } from './objects/MyHive/MyHive.js';
 import { MyPollen } from './objects/MyFlower/MyPollen.js';
+import { MyGrass } from './objects/MyGrass/MyGrass.js';
 
 /**
  * MyScene
@@ -36,9 +37,10 @@ export class MyScene extends CGFscene {
         this.panorama = new MyPanorama(this);
 
         this.bee = new MyBee(this);
-        this.garden = new MyGarden(this, 2, 2);
-        this.rockset = new MyRockSet(this, 2, 2);
+        this.garden = new MyGarden(this, 6, 6);
+        this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
+        this.grass = new MyGrass(this);
 
         this.pollens = [];
         for (let i = 0; i < this.garden.flowers.length; i++) {
@@ -50,7 +52,7 @@ export class MyScene extends CGFscene {
             pollen.setRotation(randomAngle);
 
             const receptaclePosition = flower.getReceptaclePosition();
-            pollen.setPosition(receptaclePosition[0], receptaclePosition[1]-flower.stemHeight, receptaclePosition[2]);
+            pollen.setPosition(receptaclePosition[0], receptaclePosition[1] - flower.stemHeight, receptaclePosition[2]);
 
             this.pollens.push(pollen);
         }
@@ -71,11 +73,11 @@ export class MyScene extends CGFscene {
         this.displayPanorama = true;
         this.displayBee = true;
         this.displayFlowers = true;
-        this.displayRock = false;
         this.displayRockSet = false;
         this.displayHive = true;
         this.displayGrass = false;
         this.displayTerrain = true;
+        this.displayGrass = false;
 
         // Initialize bee state and variables
         this.oscillationSpeed = 2 * Math.PI; // Speed of oscillation (radians per second)
@@ -146,27 +148,51 @@ export class MyScene extends CGFscene {
         // Draw axis
         if (this.displayAxis) this.axis.display();
 
+        let value1 = 100;
+
         if (this.displayPanorama) {
             this.panorama.display();
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, -100, 0);
+            this.translate(0, -value1, 0);
             this.scale(400, 400, 400);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();
             this.popMatrix();
         }
         if (this.displayFlowers) {
-            this.garden.display();
+            this.pushMatrix();
+            this.scale(0.2, 0.2, 0.2);
+            this.translate(-600, -400, -600);
             for (const pollen of this.pollens) {
                 pollen.display();
             }
+            this.garden.display();
+            this.popMatrix();
         }
-        if (this.displayBee) { this.bee.display(); }
-        if (this.displayRock) this.rock.display();
-        if (this.displayRockSet) this.rockset.display();
-        if (this.displayHive) this.hive.display();
-        if (this.displayGrass) this.garden.display();
+        if (this.displayBee) {
+            this.bee.display();
+        }
+        if (this.displayRockSet) {
+            this.pushMatrix();
+            this.scale(2, 2, 2);
+            this.translate(0, -value1 / 2 - 2, 0);
+            this.rockset.display();
+            this.popMatrix();
+
+        }
+        if (this.displayHive) {
+            this.pushMatrix();
+            this.scale(2, 2, 2);
+            this.rotate(Math.PI / 4 + Math.PI / 2, 0, 1, 0);
+            this.translate(0, value1 / 2, 0);
+            this.translate(45, 0, -30);
+            this.hive.display();
+            this.popMatrix();
+        }
+
+
+        if (this.displayGrass) this.grass.display();
 
         this.checkKeys();
     }

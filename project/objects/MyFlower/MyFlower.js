@@ -46,8 +46,9 @@ export class MyFlower extends CGFobject {
         this.leafMaterial.setTexture(this.textureLeaf);
         this.leafMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
+
         let lPetals = externalRadius - receptacleRadius
-        let nLayers = 1;
+        let nLayers = 2;
 
         // Create petal and receptacle objects
         this.petals = new MyPetals(scene, externalRadius, numberOfPetals, lPetals, nLayers);
