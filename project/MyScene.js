@@ -35,8 +35,8 @@ export class MyScene extends CGFscene {
         this.panorama = new MyPanorama(this);
 
         this.bee = new MyBee(this);
-        this.garden = new MyGarden(this, 5, 5);
-        this.rockset = new MyRockSet(this, 2, 2);
+        this.garden = new MyGarden(this, 6, 6);
+        this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
 
         //Objects connected to MyInterface
@@ -55,7 +55,7 @@ export class MyScene extends CGFscene {
         this.displayPanorama = true;
         this.displayBee = true;
         this.displayFlowers = true;
-        this.displayRockSet = false;
+        this.displayRockSet = true;
         this.displayHive = true;
         this.displayGrass = false;
         this.displayTerrain = true;
@@ -129,11 +129,13 @@ export class MyScene extends CGFscene {
         // Draw axis
         if (this.displayAxis) this.axis.display();
 
+        let value1 = 100;
+
         if (this.displayPanorama) {
             this.panorama.display();
             this.pushMatrix();
             this.terrainAppearance.apply();
-            this.translate(0, -100, 0);
+            this.translate(0, -value1, 0);
             this.scale(400, 400, 400);
             this.rotate(-Math.PI / 2.0, 1, 0, 0);
             this.plane.display();
@@ -142,17 +144,27 @@ export class MyScene extends CGFscene {
         if (this.displayFlowers) {
             this.pushMatrix();
             this.scale(0.2, 0.2, 0.2);
-            this.translate(0, -400, 0);
-            this.translate(-400,0,-400);
+            this.translate(-500,-400,-500);
             this.garden.display();
             this.popMatrix();
 
         }
         if (this.displayBee) { this.bee.display(); }
         if (this.displayRockSet) {
+            this.pushMatrix();
+            this.scale(2, 2, 2);
+            this.translate(0,-value1/2-2,0);
             this.rockset.display();
+            this.popMatrix();
+
         }
-        if (this.displayHive) this.hive.display();
+        if (this.displayHive) {
+            this.pushMatrix();
+            this.rotate(-Math.PI / 2, 0, 0);
+            this.hive.display();
+            this.popMatrix();
+
+        }
         if (this.displayGrass) this.garden.display();
 
         this.checkKeys();
