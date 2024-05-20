@@ -1,5 +1,9 @@
 # CG 2023/2024
 
+## Description
+
+This project aims to apply knowledge and techniques acquired in previous Computer Graphics classes to create an interactive 3D scene. The scene will incorporate several elements including terrain, flowers, rocks, a bee, and a hive. Each component will utilize various modeling, animation, and rendering techniques to demonstrate proficiency in these areas.
+
 ## Group T06G06
 
 ### Elements
@@ -9,45 +13,53 @@
 | Adriano Alexandre dos Santos Machado | 202105352 | up202105352@up.pt |
 | Clarisse Maria Teixeira de Carvalho  | 202008444 | up202008444@up.pt |
 
---- 
 
 ### Implemented Features
-[✓] Criação de esfera
-[ ] Adição de Panoramas
-[ ] Modelação de uma flor
-[ ] Parametrização da flor
-[ ] Aleatoriedade e diversidade na flor
-[ ] Pedras e penedos
-[ ] Modelação da abelha
-[ ] Animação da abelha
-[ ] Controlo da abelha
-[ ] Pólen e colmeia
-[ ] Modelação da relva
-[ ] Ondulação da relva
+* Sphere creation and sky panorama 
+* Modeling a flower with random parameterization and diversity in colors and textures
+* Creating rocks and boulders with different sizes and structures
+* Modeling a bee with animation and movement control (horizontal and vertical movement and option to reset bee's position)
+* Creating a pollen (with option to drop it) and a modern hive
+* Shaders and animation appplied eg. in the bee and the flowers
+* Creating simple grass 
 	
-### Aditional Features
+### Aditional features
+* Multiple layers for the petals of the flowers
+* Realistic sky with movement 
+* Parabolic trajectory for the bee's movement 
 
-[ ] ?
+### Keys
+* W - Accelerate (horizontal movement)
+* S - Drake (horizontal movement)
+* A - Rotate bee to the left
+* D - ROtate bee to the right
+* R - Reset bee's position
+* F - Descend (vertical movement)
+* P - Ascend (vertical movement)
+* O - Drop pollen
 
 ### Screenshots
 
 #### Panorama Element
-![Panorama Image](/project/images/cg-t06g06-1.png)
+![Panorama Image](project/screenshots/project-t06-g06-1.png)
 
 #### Flower Element
-![Flower Image](/project/images/cg-t06g06-2.png)
+![Flower Image](project/screenshots/project-t06-g06-2.png)
 
 #### Rock Element
-![Rock Image](/project/images/cg-t06g06-3.png)
+![Rock Image](project/screenshots/project-t06-g06-3.png)
 
 #### Bee Element
-![Bee Image](/project/images/cg-t06g06-4.png)
+![Bee Image](project/screenshots/project-t06-g06-4.png)
 
 #### Moving Bee Element
-![ Image](/project/images/cg-t06g06-5.png)
+![Bee Image](project/screenshots/project-t06-g06-5.png)
 
 #### Pollen and Hive Elements
-![ Image](/project/images/cg-t06g06-6.png)
+![Pollen and Hive Image](project/screenshots/project-t06-g06-6.png)
 
 #### Grass Elements
-![Grass Image](/project/images/cg-t06g06-7.png)
+![Grass Image](project/screenshots/project-t06-g06-7.png)
+
+#### Bee moving in a parabola trajectory
+![Parabolic Bee Movement Image](project/screenshots/project-t06-g06-8.png)
