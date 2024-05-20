@@ -41,12 +41,10 @@ export class MyScene extends CGFscene {
 
         this.bee = new MyBee(this);
         this.garden = new MyGarden(this, 6, 6);
-        this.rockset = new MyRockSet(this, 6, 6);
         this.hive = new MyHive(this);
         this.grass = new MyGrass(this, 10, 10);
-        this.rock2 = new MyRock(this, 6, 6, 0.2);
-        this.rockset2 = new MyRockSet(this, 7);
-        this.rockset2MaxHeight = this.rockset2.getMaxHeight();
+        this.rockset = new MyRockSet(this, 7);
+        this.rocksetMaxHeight = this.rockset.getMaxHeight();
 
 
         this.pollens = [];
@@ -64,14 +62,12 @@ export class MyScene extends CGFscene {
             this.pollens.push(pollen);
         }
 
-        //Objects connected to MyInterface
         this.displayAxis = true;
         this.scaleFactor = 1;
         this.speedFactor = 1;
 
         this.enableTextures(true);
-
-        this.terrainTexture = new CGFtexture(this, "textures/terrain.png");
+        this.terrainTexture = new CGFtexture(this, "textures/terrain.jpg");
         this.terrainAppearance = new CGFappearance(this);
         this.terrainAppearance.setTexture(this.terrainTexture);
         this.terrainAppearance.setTextureWrap('REPEAT', 'REPEAT');
@@ -91,10 +87,8 @@ export class MyScene extends CGFscene {
         this.oscillationPhase = 0; // Current phase of oscillation animation
         this.wingAngle = 0; // Initial wing rotation angle
         this.wingSpeed = 3; // Speed of wing flapping (in radians per second)
-
         this.previousTime = 0; // Time of the previous update
 
-        // set the scene update period 
         this.setUpdatePeriod(50);
     }
 
@@ -122,8 +116,7 @@ export class MyScene extends CGFscene {
 
         switch (this.bee.state) {
             case "REGULAR_MOVEMENT":
-                // Update oscillation animation
-                const oscillationDelta = this.oscillationSpeed * deltaTime / 1000; // Convert milliseconds to seconds
+                const oscillationDelta = this.oscillationSpeed * deltaTime / 1000;
                 this.oscillationPhase += oscillationDelta;
                 const oscillationOffset = Math.sin(this.oscillationPhase) * this.oscillationAmplitude;
 
@@ -161,12 +154,12 @@ export class MyScene extends CGFscene {
                 break;
 
             case "POLLEN_DELIVERY":
-                const distance = ((this.beePosition[0] + '') ** 2 + (this.beePosition[1] - (this.rockset2MaxHeight - 100)) ** 2 + (this.beePosition[2] - 15) ** 2) ** 0.5;
+                const distance = ((this.beePosition[0] + '') ** 2 + (this.beePosition[1] - (this.rocksetMaxHeight - 100)) ** 2 + (this.beePosition[2] - 15) ** 2) ** 0.5;
                 if (distance < 1) {
                     this.bee.state = "POLLEN_ASCENT";
                     this.bee.activePollen = false;
                 } else {
-                    this.bee.moveToTarget(0, this.rockset2MaxHeight - 100, 15, 1);
+                    this.bee.moveToTarget(0, this.rocksetMaxHeight - 100, 15, 1);
                     this.bee.update(deltaTime);
                 }
                 break;
@@ -220,13 +213,13 @@ export class MyScene extends CGFscene {
             this.pushMatrix();
             this.translate(0, -100, 0);
             this.scale(10, 2, 10);
-            this.rockset2.display();
+            this.rockset.display();
             this.popMatrix();
         }
 
         if (this.displayHive) {
             this.pushMatrix();
-            this.translate(0, -100 + this.rockset2MaxHeight * 2, 0);
+            this.translate(0, -100 + this.rocksetMaxHeight * 2, 0);
             this.hive.display();
             this.popMatrix();
         }

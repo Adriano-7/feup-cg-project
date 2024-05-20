@@ -6,10 +6,6 @@ export class MyCube extends CGFobject {
         this.size = size; // Size of the cube
         this.initBuffers();
     }
-    setTexCoords(texCoords) {
-        this.texCoords = texCoords;
-        this.initBuffers(); // Reinitialize buffers with new texture coordinates
-    }
 
     initBuffers() {
         this.vertices = [
